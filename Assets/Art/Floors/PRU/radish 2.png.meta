@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      radish 2_0: 2102007722225642905
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
