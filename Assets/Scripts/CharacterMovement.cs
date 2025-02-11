@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;  // Tốc độ di chuyển của nhân vật
+    public float moveSpeed = 5f;
     private Animator animator;
     private Vector2 movement;
     private bool isRunning = false;
@@ -13,41 +13,44 @@ public class CharacterMovement : MonoBehaviour
     public Image StaminaBar;
 
     public float Stamina, MaxStamina;
-
     public float AttackCost;
     public float RunCost;
     public float ChargeRate;
 
     private Coroutine recharge;
 
-
     void Start()
     {
-        animator = GetComponent<Animator>();  // Lấy Animator của nhân vật
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        // Lấy input từ người dùng để xác định hướng di chuyển
-       
-            movement.x = Input.GetAxisRaw("Horizontal");  // A/D hoặc phím mũi tên trái/phải
-            movement.y = Input.GetAxisRaw("Vertical");    // W/S hoặc phím mũi tên lên/xuống
+        // Nếu đang tưới nước, không cho phép di chuyển
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering"))
+        {
+            movement = Vector2.zero;
+            return;
+        }
 
-        // Chuẩn hóa vector để đảm bảo tốc độ di chuyển đồng nhất
+        // Lấy input từ người dùng để xác định hướng di chuyển
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
         movement = movement.normalized;
 
-        // Kiểm tra nếu có di chuyển thì bật trạng thái walking
         if (movement != Vector2.zero)
         {
-            animator.SetBool("isWalking", true);  // Chuyển sang trạng thái walking
-            animator.SetFloat("MoveX", movement.x);  // Xác định hướng đi trên trục X
-            animator.SetFloat("MoveY", movement.y);  // Xác định hướng đi trên trục Y
+            animator.SetBool("isWalking", true);
+            animator.SetFloat("MoveX", movement.x);
+            animator.SetFloat("MoveY", movement.y);
         }
         else
         {
-            animator.SetBool("isWalking", false);  // Nếu không di chuyển thì idle
+            animator.SetBool("isWalking", false);
         }
-        // Kiểm tra nếu nhấn hoặc thả phím "left shift" để bật/tắt chế độ chạy
+
+        // Chạy khi giữ shift
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isRunning = true;
@@ -57,40 +60,41 @@ public class CharacterMovement : MonoBehaviour
             isRunning = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && Stamina >= AttackCost)
+        // Nhấn F để tưới nước nếu đủ Stamina
+        if (Input.GetKeyDown(KeyCode.F) && Stamina >= AttackCost && movement == Vector2.zero)
         {
-            Debug.Log("Attack!");  // In ra console khi tấn công
-            Stamina -= AttackCost; // Trừ stamina khi tấn công
+            animator.SetTrigger("Watering"); // Bật animation tưới nước
+            Stamina -= AttackCost;
 
-            if (Stamina < 0) Stamina = 0; // Đảm bảo Stamina không xuống dưới 0
+            if (Stamina < 0) Stamina = 0;
+            StaminaBar.fillAmount = Stamina / MaxStamina;
 
-            StaminaBar.fillAmount = Stamina / MaxStamina; // Cập nhật thanh thể lực
-
-            if(recharge != null) StopCoroutine(recharge);
+            if (recharge != null) StopCoroutine(recharge);
             recharge = StartCoroutine(RechargeStamina());
         }
     }
 
     void FixedUpdate()
     {
-        // Nếu đang chạy, tăng tốc độ di chuyển lên 1.5 lần
+        // Nếu đang tưới nước, không di chuyển
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering")) return;
+
         float currentSpeed;
         if (isRunning)
         {
-            currentSpeed = moveSpeed * 1.5f; // Nếu đang chạy, tăng tốc độ lên 1.5 lần
+            currentSpeed = moveSpeed * 1.5f;
 
             Stamina -= RunCost * Time.deltaTime;
-            if (Stamina < 0) Stamina = 0; // Đảm bảo Stamina không xuống dưới 0
+            if (Stamina < 0) Stamina = 0;
             if (Stamina == 0) isRunning = false;
-            StaminaBar.fillAmount = Stamina / MaxStamina; // Cập nhật thanh thể lực
+            StaminaBar.fillAmount = Stamina / MaxStamina;
             if (recharge != null) StopCoroutine(recharge);
             recharge = StartCoroutine(RechargeStamina());
         }
         else
         {
-            currentSpeed = moveSpeed; // Nếu không chạy, giữ nguyên tốc độ
+            currentSpeed = moveSpeed;
         }
-
 
         transform.Translate(currentSpeed * Time.fixedDeltaTime * movement.normalized, Space.World);
     }
@@ -98,7 +102,6 @@ public class CharacterMovement : MonoBehaviour
     private IEnumerator RechargeStamina()
     {
         yield return new WaitForSeconds(1f);
-
         while (Stamina < MaxStamina)
         {
             Stamina += ChargeRate / 10f;
