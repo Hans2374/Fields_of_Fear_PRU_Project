@@ -51,7 +51,7 @@ public class CharacterMovement : MonoBehaviour
         }
 
         // Chạy khi giữ shift
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && movement != Vector2.zero)
         {
             isRunning = true;
         }
