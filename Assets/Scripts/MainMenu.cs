@@ -4,9 +4,17 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>() ;   
+    }
+
     public void PlayGame()
     {
-        Invoke("LoadGame", 1f);
+        audioManager.PlaySFX(audioManager.menuButton);
+        Invoke("LoadGame", 0.5f);
     }
 
     private void LoadGame()
@@ -16,7 +24,29 @@ public class MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
+        audioManager.PlaySFX(audioManager.menuButton);
         Application.Quit();
     }
+
+    public void Continue()
+    {
+        audioManager.PlaySFX(audioManager.menuButton);
+    }
+
+    public void MenuSetting()
+    {
+        audioManager.PlaySFX(audioManager.menuButton);
+    }
+
+    public void MenuCancel()
+    {
+        audioManager.PlaySFX(audioManager.menuButton);
+    }
+
+    public void Tutorial()
+    {
+        audioManager.PlaySFX(audioManager.menuButton);
+    }
+
 
 }
