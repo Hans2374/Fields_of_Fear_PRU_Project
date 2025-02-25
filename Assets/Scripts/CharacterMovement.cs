@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -110,4 +111,25 @@ public class CharacterMovement : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log($"[DEBUG] {gameObject.name} chạm vào {other.name} - Tag: {other.tag}");
+
+        if (other.CompareTag("Item")) // Nếu item có Tag "Item"
+        {
+            Item item = other.GetComponent<Item>(); // Lấy component Item
+            if (item != null && item.itemData != null)
+            {
+                Debug.Log($"✅ Nhặt thành công: {item.itemData.itemType}");
+                Inventory.Instance.AddItem(item.itemData.itemType);
+                Destroy(other.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("❌ Không tìm thấy ItemData trên vật phẩm!");
+            }
+        }
+    }
+
 }
