@@ -1,52 +1,71 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class InventoryUI : MonoBehaviour
 {
-    public GameObject itemSlotPrefab; // Prefab của ItemSlot
-    public Transform slotParent; // Panel chứa các slot
+    private Inventory inventory;
+    public Transform itemSlotContainer;
+    public Transform itemSlotTemplate;
 
-    private Dictionary<ItemType, GameObject> itemSlots = new Dictionary<ItemType, GameObject>();
-
-    void Start()
+    private void Awake()
     {
-        if (itemSlotPrefab == null)
+        itemSlotContainer = transform.Find("ItemSlotContainer");
+        if (itemSlotContainer == null)
         {
-            Debug.LogError("❌ itemSlotPrefab chưa được gán! Kiểm tra trong Inspector hoặc đường dẫn Resources.");
+            Debug.LogError("Không tìm thấy ItemSlotContainer! Kiểm tra tên trong Hierarchy.");
         }
 
-        Inventory.Instance.OnInventoryChanged += UpdateUI;
-        UpdateUI();
+        itemSlotTemplate = itemSlotContainer?.Find("ItemSlotTemplate");
+        if (itemSlotTemplate == null)
+        {
+            Debug.LogError("Không tìm thấy ItemSlotTemplate! Kiểm tra xem nó có bị ẩn không.");
+        }
     }
 
-
-    void UpdateUI()
+    public void SetInventory(Inventory inventory)
     {
-        if (slotParent == null)
-        {
-            Debug.LogError("❌ slotParent chưa được gán trong Inspector!");
-            return;
-        }
+        this.inventory = inventory;
 
-        // Xóa UI cũ trước khi cập nhật mới
-        foreach (Transform child in slotParent)
+        inventory.OnItemListChanged += Inventory_OnItemListChanged;
+        RefreshInventoryItems();
+    }
+
+    private void Inventory_OnItemListChanged(object sender, EventArgs e)
+    {
+        RefreshInventoryItems();
+    }
+
+    private void RefreshInventoryItems()
+    {
+        foreach (Transform child in itemSlotContainer)
         {
+            if (child == itemSlotTemplate) continue;
             Destroy(child.gameObject);
+            //if (child != itemSlotTemplate)
+            //{
+            //    Destroy(child.gameObject);
+            //}
+        }
+        // Xóa các item cũ trước khi cập nhật
+        foreach (Transform child in itemSlotContainer)
+        {
+            if (child != itemSlotTemplate)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
-        Dictionary<ItemType, int> items = Inventory.Instance.GetItems();
-        foreach (var item in items)
+        foreach (Item item in inventory.GetItems())
         {
-            GameObject slot = Instantiate(itemSlotPrefab, slotParent);
-            ItemSlotUI slotUI = slot.GetComponent<ItemSlotUI>();
-            if (slotUI == null)
-            {
-                Debug.LogError("❌ Prefab itemSlotPrefab không có script ItemSlotUI!");
-                return;
-            }
-            slotUI.SetItem(item.Key, item.Value);
+            RectTransform itemSlotTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
+            itemSlotTransform.gameObject.SetActive(true);
+            Image image = itemSlotTransform.Find("Image").GetComponent<Image>();
+            image.sprite = item.GetSprite();
         }
     }
+
+
+
 
 }

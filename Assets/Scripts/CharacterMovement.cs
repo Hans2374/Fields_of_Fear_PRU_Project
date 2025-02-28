@@ -20,9 +20,38 @@ public class CharacterMovement : MonoBehaviour
 
     private Coroutine recharge;
 
+    [SerializeField] private InventoryUI inventoryUI;
+    private Inventory inventory;
+
     void Start()
     {
         animator = GetComponent<Animator>();
+    }
+
+    private void Awake()
+    {
+
+        inventory = new Inventory();
+        inventoryUI.SetInventory(inventory);
+
+        ItemWorld.SpawnItemWorld(new Vector3(-32, -11), new Item { itemType = Item.ItemType.BerrySeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-29, -14), new Item { itemType = Item.ItemType.CarrotSeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-31, -10), new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-28, -13), new Item { itemType = Item.ItemType.CabbageSeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-30, -12), new Item { itemType = Item.ItemType.PotatoSeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-27, -15), new Item { itemType = Item.ItemType.RadishSeed, amount = 1 });
+        ItemWorld.SpawnItemWorld(new Vector3(-26, -16), new Item { itemType = Item.ItemType.TomatoSeed, amount = 1 });
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
+        if (itemWorld != null)
+        {
+            inventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }
     }
 
     void Update()
@@ -112,24 +141,6 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log($"[DEBUG] {gameObject.name} chạm vào {other.name} - Tag: {other.tag}");
 
-        if (other.CompareTag("Item")) // Nếu item có Tag "Item"
-        {
-            Item item = other.GetComponent<Item>(); // Lấy component Item
-            if (item != null && item.itemData != null)
-            {
-                Debug.Log($"✅ Nhặt thành công: {item.itemData.itemType}");
-                Inventory.Instance.AddItem(item.itemData.itemType);
-                Destroy(other.gameObject);
-            }
-            else
-            {
-                Debug.LogWarning("❌ Không tìm thấy ItemData trên vật phẩm!");
-            }
-        }
-    }
 
 }

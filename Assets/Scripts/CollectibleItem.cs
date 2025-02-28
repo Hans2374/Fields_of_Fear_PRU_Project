@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CollectibleItem : MonoBehaviour
 {
-    public ItemType itemType; // Loại item
+    public ItemHolder itemType; // Loại item
     public float moveSpeed = 5f; // Tốc độ bay về phía Player
     private Transform target; // Vị trí của Player
 
@@ -27,7 +27,7 @@ public class CollectibleItem : MonoBehaviour
 
         if (target != null)
         {
-            Inventory.Instance.AddItem(itemType);
+            
             Debug.Log($"✅ Nhặt thành công: {itemType}");
             Destroy(gameObject);
         }

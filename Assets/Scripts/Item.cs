@@ -1,18 +1,40 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Item : MonoBehaviour
+
+[Serializable]
+public class Item
 {
-    public ItemData itemData;
-
-    private void Start()
+    public enum ItemType
     {
-        if (itemData == null)
+        BerrySeed,
+        CarrotSeed,
+        GrapeSeed,
+        PotatoSeed,
+        RadishSeed,
+        CabbageSeed,
+        TomatoSeed
+
+    }
+
+
+    
+    public int amount;
+    public ItemType itemType;
+
+    public Sprite GetSprite()
+    {
+        switch (itemType)
         {
-            Debug.LogError($"❌ {gameObject.name} không có ItemData! Kiểm tra Prefab.");
-        }
-        else
-        {
-            Debug.Log($"✅ {gameObject.name} có ItemData: {itemData.itemName}");
+            default:
+            case ItemType.BerrySeed: return ItemAssets.Instance.BerrySeedSprite;
+            case ItemType.CarrotSeed: return ItemAssets.Instance.CarrotSeedSprite;
+            case ItemType.GrapeSeed: return ItemAssets.Instance.GrapeSeedSprite;
+            case ItemType.PotatoSeed: return ItemAssets.Instance.PotatoSeedSprite;
+            case ItemType.RadishSeed: return ItemAssets.Instance.RadishSeedSprite;
+            case ItemType.CabbageSeed: return ItemAssets.Instance.CabbageSeedSprite;
+            case ItemType.TomatoSeed: return ItemAssets.Instance.TomatoSeedSprite;
         }
     }
+
 }
