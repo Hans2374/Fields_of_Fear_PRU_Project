@@ -67,10 +67,10 @@ public class InventoryUI : MonoBehaviour
             RectTransform itemSlotTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotTransform.gameObject.SetActive(true);
 
-            itemSlotTransform.GetComponent<Button_UI>().ClickFunc = () =>
-            {
-                //Use item
-            };
+            //itemSlotTransform.GetComponent<Button_UI>().ClickFunc = () =>
+            //{
+            //    //Use item
+            //};
             
             Image image = itemSlotTransform.Find("Image").GetComponent<Image>();
             image.sprite = item.GetSprite();
