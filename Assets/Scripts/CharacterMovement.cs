@@ -33,14 +33,14 @@ public class CharacterMovement : MonoBehaviour
 
         inventory = new Inventory();
         inventoryUI.SetInventory(inventory);
-
-        ItemWorld.SpawnItemWorld(new Vector3(-32, -11), new Item { itemType = Item.ItemType.BerrySeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-29, -14), new Item { itemType = Item.ItemType.CarrotSeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-31, -10), new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-28, -13), new Item { itemType = Item.ItemType.CabbageSeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-30, -12), new Item { itemType = Item.ItemType.PotatoSeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-27, -15), new Item { itemType = Item.ItemType.RadishSeed, amount = 1 });
-        ItemWorld.SpawnItemWorld(new Vector3(-26, -16), new Item { itemType = Item.ItemType.TomatoSeed, amount = 1 });
+        inventoryUI.SetPlayer(this);
+        //ItemWorld.SpawnItemWorld(new Vector3(-32, -11), new Item { itemType = Item.ItemType.BerrySeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-29, -14), new Item { itemType = Item.ItemType.CarrotSeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-31, -10), new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-28, -13), new Item { itemType = Item.ItemType.CabbageSeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-30, -12), new Item { itemType = Item.ItemType.PotatoSeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-27, -15), new Item { itemType = Item.ItemType.RadishSeed, amount = 1 });
+        //ItemWorld.SpawnItemWorld(new Vector3(-26, -16), new Item { itemType = Item.ItemType.TomatoSeed, amount = 1 });
 
     }
 
@@ -53,6 +53,11 @@ public class CharacterMovement : MonoBehaviour
             itemWorld.DestroySelf();
         }
     }
+    public Vector3 GetPosition()
+    {
+        return transform.position;
+    }
+
 
     void Update()
     {

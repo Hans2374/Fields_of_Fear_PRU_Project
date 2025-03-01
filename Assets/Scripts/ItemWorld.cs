@@ -1,5 +1,7 @@
-﻿using UnityEngine;
-
+﻿using TMPro;
+using UnityEditorInternal;
+using UnityEngine;
+using CodeMonkey.Utils;
 public class ItemWorld : MonoBehaviour
 {
     public static ItemWorld SpawnItemWorld(Vector3 position, Item item)
@@ -21,18 +23,36 @@ public class ItemWorld : MonoBehaviour
         return itemWorld;
     }
 
+    public static ItemWorld DropItem(Vector3 dropPosition, Item item)
+    {
+            Vector3 randomDir = UtilsClass.GetRandomDir();
+        ItemWorld itemWorld = SpawnItemWorld(dropPosition + randomDir * 10f, item);
+        itemWorld.GetComponent<Rigidbody2D>().AddForce(randomDir * 10f, ForceMode2D.Impulse);
+        return itemWorld;
+    }
+
     private Item item;
 
     private SpriteRenderer spriteRenderer;
+    private TextMeshPro textMeshPro;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        textMeshPro = transform.Find("Text").GetComponent<TextMeshPro>();
     }
     public void SetItem(Item item)
     {
         this.item = item;
         spriteRenderer.sprite = item.GetSprite();
+        if (item.amount > 1)
+        {
+            textMeshPro.SetText(item.amount.ToString());
+        }
+        else
+        {
+            textMeshPro.SetText("");
+        }
     }
 
     public Item GetItem()

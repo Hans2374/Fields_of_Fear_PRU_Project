@@ -37,4 +37,19 @@ public class Item
         }
     }
 
+    public bool IsStackable()
+    {
+        switch (itemType)
+        {
+            default:
+            case ItemType.BerrySeed:
+            case ItemType.CarrotSeed:
+            case ItemType.GrapeSeed:
+            case ItemType.PotatoSeed:
+            case ItemType.RadishSeed:
+            case ItemType.CabbageSeed:
+            case ItemType.TomatoSeed:
+                return true;
+        }
+    }
 }
