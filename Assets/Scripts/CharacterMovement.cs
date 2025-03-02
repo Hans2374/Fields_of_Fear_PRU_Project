@@ -6,6 +6,8 @@ using static UnityEditor.Progress;
 
 public class CharacterMovement : MonoBehaviour
 {
+    private float stepTimer = 0f;
+    AudioManager audioManager;
     public float moveSpeed = 5f;
     private Animator animator;
     private Vector2 movement;
@@ -30,6 +32,8 @@ public class CharacterMovement : MonoBehaviour
 
     private void Awake()
     {
+
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 
         inventory = new Inventory();
         inventoryUI.SetInventory(inventory);
@@ -79,10 +83,19 @@ public class CharacterMovement : MonoBehaviour
             animator.SetBool("isWalking", true);
             animator.SetFloat("MoveX", movement.x);
             animator.SetFloat("MoveY", movement.y);
+
+            // Phát âm thanh mỗi 0.5 giây
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= 0.5f)
+            {
+                audioManager.PlaySFX(audioManager.moveStep);
+                stepTimer = 0f; // Reset bộ đếm
+            }
         }
         else
         {
             animator.SetBool("isWalking", false);
+            stepTimer = 0f; // Reset bộ đếm nếu nhân vật dừng lại
         }
 
         // Chạy khi giữ shift

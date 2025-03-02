@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip menuBackGround;
     public AudioClip menuButton;
 
+    public AudioClip moveStep;
+
     private void Start()
     {
         musicSource.clip = menuBackGround;
