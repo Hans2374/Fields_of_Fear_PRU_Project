@@ -1,24 +1,8 @@
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Item;
 
-[Serializable]
-public class InventorySaveData
-{
-    public List<ItemData> items;
-
-    public InventorySaveData(Inventory inventory)
-    {
-        items = new List<ItemData>();
-        foreach (Item item in inventory.GetItems())
-        {
-            items.Add(item.ToItemData());
-        }
-    }
-}
 public class Inventory
 {
 
@@ -30,7 +14,14 @@ public class Inventory
     {
         items = new List<Item>();
         Debug.Log("Inventory created");
-
+        //AddItem(new Item {  itemType = Item.ItemType.BerrySeed, amount = 1 });
+        //AddItem(new Item {  itemType = Item.ItemType.CarrotSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         Debug.Log($"Inventory has {items.Count} items");
     }
 

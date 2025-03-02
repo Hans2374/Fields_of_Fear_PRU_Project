@@ -22,21 +22,6 @@ public class Item
     public int amount;
     public ItemType itemType;
 
-    public Item(ItemType itemType, int amount)
-    {
-        this.itemType = itemType;
-        this.amount = amount;
-    }
-
-    public ItemData ToItemData()
-    {
-        return new ItemData(itemType, amount);
-    }
-
-    public static Item FromItemData(ItemData data)
-    {
-        return new Item(data.itemType, data.amount);
-    }
     public Sprite GetSprite()
     {
         switch (itemType)
