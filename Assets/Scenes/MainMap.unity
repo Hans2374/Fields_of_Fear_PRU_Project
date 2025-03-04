@@ -3857,6 +3857,7 @@ GameObject:
   - component: {fileID: 744356444}
   - component: {fileID: 744356446}
   - component: {fileID: 744356447}
+  - component: {fileID: 744356448}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3950,7 +3951,7 @@ Transform:
   m_GameObject: {fileID: 744356440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.82, y: -0.65, z: 0}
+  m_LocalPosition: {x: -30.73, y: -11.44, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4049,6 +4050,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &744356448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 744356440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a123ab55d84c07346b0db7bfb42fc241, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &771686603
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,6 +4208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 862398875}
   - component: {fileID: 862398874}
+  - component: {fileID: 862398876}
   m_Layer: 0
   m_Name: Audio Manager
   m_TagString: Audio
@@ -4236,6 +4250,18 @@ Transform:
   - {fileID: 1492478392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &862398876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862398873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddda676e91b5db41ba67890f2017160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &934100829
 GameObject:
   m_ObjectHideFlags: 0
@@ -23202,6 +23228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneBuildIndex: 2
+  playerPositionInNewScene: {x: -51.5, y: -37}
 --- !u!1 &1200136346
 GameObject:
   m_ObjectHideFlags: 0
@@ -26497,6 +26524,7 @@ GameObject:
   - component: {fileID: 1581663935}
   - component: {fileID: 1581663938}
   - component: {fileID: 1581663937}
+  - component: {fileID: 1581663939}
   m_Layer: 5
   m_Name: WorldTIme
   m_TagString: Untagged
@@ -26562,6 +26590,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581663934}
   m_CullTransparentMesh: 1
+--- !u!114 &1581663939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581663934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceef22a08dfd75245abd141aa922b1a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1581666813
 GameObject:
   m_ObjectHideFlags: 0

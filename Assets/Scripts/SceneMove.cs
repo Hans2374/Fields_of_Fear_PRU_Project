@@ -1,24 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneMove : MonoBehaviour
 {
     public int sceneBuildIndex;
+    public Vector2 playerPositionInNewScene;
 
-    // Level move zoned enter, if collider is a player
-    // Move game to another scene
     private void OnTriggerEnter2D(Collider2D other)
     {
-        print("Trigger Entered");
-
-        // Could use other.GetComponent<Player>() to see if the game object has a Player component
-        // Tags work too. Maybe some players have different script components?
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            // Player entered, so move level
-            print("Switching Scene to " + sceneBuildIndex);
+            // Get or create the GameManager
+            if (GameManager.instance == null)
+            {
+                GameObject gameManagerObj = new GameObject("GameManager");
+                gameManagerObj.AddComponent<GameManager>();
+            }
+
+            // Set player spawn position in the new scene
+            GameManager.instance.SetPlayerSpawnPoint(playerPositionInNewScene);
+
+            // Load the new scene
             SceneManager.LoadScene(sceneBuildIndex, LoadSceneMode.Single);
         }
     }
