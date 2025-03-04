@@ -11,6 +11,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip menuButton;
 
     public AudioClip moveStep;
+    public AudioClip getHit;
+    public AudioClip monsterRoar;
+    public AudioClip monsterChase;
 
     private void Start()
     {
@@ -22,4 +25,9 @@ public class AudioManager : MonoBehaviour
     {
         SFXSource.PlayOneShot(clip);
     }
+
+    public void StopSFX()
+{
+    SFXSource.Stop();
+}
 }

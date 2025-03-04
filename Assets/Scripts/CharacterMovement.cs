@@ -19,6 +19,8 @@ public class CharacterMovement : MonoBehaviour
     public float AttackCost;
     public float RunCost;
     public float ChargeRate;
+    private float lastMoveX = 0;
+    private float lastMoveY = -1;
 
     private Coroutine recharge;
 
@@ -72,7 +74,7 @@ public class CharacterMovement : MonoBehaviour
             return;
         }
 
-        // Lấy input từ người dùng để xác định hướng di chuyển
+        // Lấy input từ người dùng
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
@@ -84,21 +86,38 @@ public class CharacterMovement : MonoBehaviour
             animator.SetFloat("MoveX", movement.x);
             animator.SetFloat("MoveY", movement.y);
 
-            // Phát âm thanh mỗi 0.5 giây
+            // Lưu hướng di chuyển cuối cùng
+            lastMoveX = movement.x;
+            lastMoveY = movement.y;
+
+            // Phát âm thanh bước chân
             stepTimer += Time.deltaTime;
             if (stepTimer >= 0.5f)
             {
                 audioManager.PlaySFX(audioManager.moveStep);
-                stepTimer = 0f; // Reset bộ đếm
+                stepTimer = 0f;
             }
         }
         else
         {
             animator.SetBool("isWalking", false);
-            stepTimer = 0f; // Reset bộ đếm nếu nhân vật dừng lại
+            stepTimer = 0f;
+
+            // Khi dừng lại, dùng hướng cuối cùng để đặt trạng thái Idle phù hợp
+            if (movement != Vector2.zero)
+            {
+                animator.SetBool("isWalking", true);
+                animator.SetFloat("MoveX", movement.x);
+                animator.SetFloat("MoveY", movement.y);
+            }
+            else
+            {
+                animator.SetBool("isWalking", false);
+            }
+
         }
 
-        // Chạy khi giữ shift
+        // Xử lý chạy khi giữ Shift
         if (Input.GetKeyDown(KeyCode.LeftShift) && movement != Vector2.zero)
         {
             isRunning = true;
@@ -111,7 +130,7 @@ public class CharacterMovement : MonoBehaviour
         // Nhấn F để tưới nước nếu đủ Stamina
         if (Input.GetKeyDown(KeyCode.F) && Stamina >= AttackCost && movement == Vector2.zero)
         {
-            animator.SetTrigger("Watering"); // Bật animation tưới nước
+            animator.SetTrigger("Watering");
             Stamina -= AttackCost;
 
             if (Stamina < 0) Stamina = 0;
@@ -121,7 +140,6 @@ public class CharacterMovement : MonoBehaviour
             recharge = StartCoroutine(RechargeStamina());
         }
     }
-
     void FixedUpdate()
     {
         // Nếu đang tưới nước, không di chuyển
