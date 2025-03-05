@@ -111,6 +111,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -259,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bringer-of-Death_Cast_8_0: -2126793499089303559
+      Bringer-of-Death_Cast_8_1: 8569937324275718703
+      Bringer-of-Death_Cast_8_2: 6312871603179019341
+      Bringer-of-Death_Cast_8_3: 1056361879903966054
+      Bringer-of-Death_Cast_8_4: 4815051279084095726
+      Bringer-of-Death_Cast_8_5: -5269531372112530037
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

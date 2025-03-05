@@ -138,6 +138,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -484,7 +497,22 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bringer-of-Death_Attack_9_0: 2990122378051729481
+      Bringer-of-Death_Attack_9_1: -7382975060597904626
+      Bringer-of-Death_Attack_9_10: -3594843495167897463
+      Bringer-of-Death_Attack_9_11: 5309775186519154070
+      Bringer-of-Death_Attack_9_12: -3326228293198959578
+      Bringer-of-Death_Attack_9_13: 4121217530598547489
+      Bringer-of-Death_Attack_9_14: 7130972867183466336
+      Bringer-of-Death_Attack_9_2: -2296790381873118713
+      Bringer-of-Death_Attack_9_3: -9134138655723727345
+      Bringer-of-Death_Attack_9_4: 1059036664191365472
+      Bringer-of-Death_Attack_9_5: 4102940762815721441
+      Bringer-of-Death_Attack_9_6: -2334784897017958998
+      Bringer-of-Death_Attack_9_7: -7395419768308273280
+      Bringer-of-Death_Attack_9_8: -7346367903477691008
+      Bringer-of-Death_Attack_9_9: -2698006787476460580
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
