@@ -25,5 +25,20 @@ public class PlayerSpawner : MonoBehaviour
         {
             Debug.LogError("Player not found. Make sure it has the 'Player' tag and PersistentPlayer component.");
         }
+
+        if (player != null)
+        {
+            if (GameManager.instance != null && GameManager.instance.IsComingFromTransition())
+            {
+                Vector2 spawnPoint = GameManager.instance.GetPlayerSpawnPoint();
+                Debug.Log("Positioning player at: " + spawnPoint); // Add this line
+                player.transform.position = spawnPoint;
+            }
+            else if (defaultSpawnPoint != null)
+            {
+                Debug.Log("Using default spawn at: " + defaultSpawnPoint.position); // Add this line
+                player.transform.position = defaultSpawnPoint.position;
+            }
+        }
     }
 }
