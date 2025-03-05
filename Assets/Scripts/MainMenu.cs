@@ -8,7 +8,15 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>() ;   
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    private void Start()
+    {
+        if (audioManager != null)
+        {
+            audioManager.PlayMusic(audioManager.menuBackGround);
+        }
     }
 
     public void PlayGame()

@@ -9,6 +9,15 @@ public class MainMapAudio : MonoBehaviour
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>() ;   
     }
 
+    private void Start()
+    {
+        if (audioManager != null)
+        {
+            audioManager.PlayMusic(audioManager.morningSound);
+            audioManager.PlaySFX(audioManager.birdSound);
+        }
+    }
+
     public void ButtonClick()
     {
         audioManager.PlaySFX(audioManager.menuButton);

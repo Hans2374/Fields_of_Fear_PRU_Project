@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
+    private float lastRoarTime = 0f;
+    [SerializeField] private float roarCooldown = 5f; // Khoảng thời gian tối thiểu giữa 2 lần Roar
+
     AudioManager audioManager;
     public float moveSpeed = 2f;
     private Vector2 moveDirection;
@@ -18,18 +21,16 @@ public class EnemyAI : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
     private bool isAttacking = false;
-    private bool isFrozen = false; // Quái vật bị đóng băng sau lần tấn công đầu tiên
-    private bool isNight = false; // Kiểm tra ban đêm
+    private bool isFrozen = false;
+    private bool isNight = false;
 
-    public Image fadeImage; // Đặt một UI Image full màn hình màu đen, alpha = 0
-    public float fadeDuration = 3f; // Thời gian hiệu ứng mờ dần
 
     [SerializeField] private WorldTime _worldTime;
     public Vector2 spawnMin = new Vector2(-45, -16);
     public Vector2 spawnMax = new Vector2(5, -17);
 
 
-    
+
     void Awake()
     {
 
@@ -38,7 +39,7 @@ public class EnemyAI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         _worldTime.WorldTimeChanged += OnWorldTimeChanged;
-        gameObject.SetActive(false); // Quái vật bị ẩn khi bắt đầu
+        gameObject.SetActive(false);
 
         Transform lifeFolder = GameObject.Find("Life").transform;
         hearts = new Image[2];
@@ -48,7 +49,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDestroy()
     {
-        StopAllCoroutines(); 
+        StopAllCoroutines();
         _worldTime.WorldTimeChanged -= OnWorldTimeChanged;
     }
 
@@ -58,7 +59,7 @@ public class EnemyAI : MonoBehaviour
 
         bool isNightTime = (timePercent > 0.75f || timePercent < 0.125f); // 18:00 - 3:00
         bool isDaytimeSpawn = (timePercent > 0.375f && timePercent < 0.583f); // 9:00 - 14:00
-        Debug.Log($"[Enemy] Time: {newTime}, Percent: {timePercent}, Night: {isNightTime}, Day: {isDaytimeSpawn}");
+
 
         if (isNightTime)
         {
@@ -79,13 +80,19 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+
     private void TrySpawn(float spawnChance)
     {
         if (UnityEngine.Random.value < spawnChance) // Xác suất spawn theo tỷ lệ
         {
             float spawnX = UnityEngine.Random.Range(spawnMin.x, spawnMax.x);
             float spawnY = UnityEngine.Random.Range(spawnMin.y, spawnMax.y);
-
+            // Kiểm tra nếu đủ cooldown thì mới Roar
+            if (Time.time - lastRoarTime >= roarCooldown)
+            {
+                audioManager.PlaySFX(audioManager.monsterRoar);
+                lastRoarTime = Time.time; // Cập nhật thời gian Roar mới nhất
+            }
 
             gameObject.SetActive(true);
             audioManager.PlaySFX(audioManager.monsterRoar);
@@ -94,6 +101,7 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (!gameObject.activeInHierarchy || isFrozen) return;
         if (isFrozen) return; // 🔥 Nếu bị đóng băng, quái vật không di chuyển
 
         if (player != null && !isAttacking)
@@ -102,7 +110,11 @@ public class EnemyAI : MonoBehaviour
             if (Vector2.Distance(transform.position, player.position) < 0.5f)
             {
                 moveDirection = Vector2.zero;
-                StartCoroutine(AttackPlayer());
+                if (gameObject.activeInHierarchy)
+                {
+                    StartCoroutine(AttackPlayer());
+                }
+
             }
         }
 
@@ -131,10 +143,11 @@ public class EnemyAI : MonoBehaviour
         {
             player = other.transform;
 
-            // 🔊 Phát nhạc rượt đuổi
             if (audioManager != null)
             {
-                audioManager.PlaySFX(audioManager.monsterChase);
+                audioManager.StopMusic();
+                audioManager.StopSFX();
+                audioManager.PlayMusic(audioManager.monsterChase);
             }
         }
     }
@@ -147,10 +160,12 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("attack", false);
             ChooseRandomDirection();
 
-            // 🔇 Ngừng nhạc chase, có thể bật lại nhạc nền nếu muốn
+
             if (audioManager != null)
             {
-                audioManager.StopSFX();
+                audioManager.StopMusic();
+                audioManager.PlayMusic(audioManager.morningSound);
+                audioManager.PlaySFX(audioManager.birdSound);
             }
         }
     }
@@ -161,6 +176,8 @@ public class EnemyAI : MonoBehaviour
         {
             yield break;
         }
+
+        if (!gameObject.activeInHierarchy) yield break;
 
 
         isAttacking = true;
@@ -181,7 +198,9 @@ public class EnemyAI : MonoBehaviour
 
             if (hitCount >= hearts.Length)
             {
-                StopChaseMusic(); // 🔥 Dừng nhạc trước khi Load Scene
+                StopChaseMusic();
+                audioManager.StopMusic();
+                audioManager.StopSFX();
                 SceneManager.LoadScene(3);
                 yield break;
             }
@@ -209,6 +228,4 @@ public class EnemyAI : MonoBehaviour
             audioManager.StopSFX(); // 🔥 Dừng nhạc SFX chase
         }
     }
-
-
 }

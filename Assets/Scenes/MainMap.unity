@@ -3189,7 +3189,7 @@ GameObject:
   - component: {fileID: 649665398}
   - component: {fileID: 649665397}
   - component: {fileID: 649665399}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -3300,11 +3300,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec4a936834942e4c8a5718647913a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roarCooldown: 5
   moveSpeed: 5
   fullHeart: {fileID: -3823153081306352603, guid: c241d90f83d709845a63c967848737ce, type: 3}
   emptyHeart: {fileID: 9010997100383349577, guid: e9c9eb66f4c218947993e69631d1146b, type: 3}
-  fadeImage: {fileID: 0}
-  fadeDuration: 3
   _worldTime: {fileID: 1073602559}
   spawnMin: {x: -45, y: -16}
   spawnMax: {x: 5, y: -17}
@@ -4029,7 +4028,7 @@ SpriteRenderer:
   m_SortingLayerID: -542252547
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2479089436886337752, guid: acf4974e3b679c645890ef8a96c1f535, type: 3}
+  m_Sprite: {fileID: -7475997616745108132, guid: acf4974e3b679c645890ef8a96c1f535, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4113,7 +4112,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.796875, y: 1.65625}
+    oldSize: {x: 0.828125, y: 1.6875}
     newSize: {x: 0.828125, y: 1.6875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -4328,12 +4327,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1488750346}
   SFXSource: {fileID: 1492478391}
-  menuBackGround: {fileID: 0}
+  menuBackGround: {fileID: 8300000, guid: 3b2d0f98ccfaaf94b9024e4d2e1f24bc, type: 3}
+  morningSound: {fileID: 8300000, guid: 3b2d0f98ccfaaf94b9024e4d2e1f24bc, type: 3}
+  nightSound: {fileID: 8300000, guid: 4d79ab7358d3cca4b8690ba6dc4673ef, type: 3}
   menuButton: {fileID: 8300000, guid: da28dcba708785943b80e06daf9b9374, type: 3}
   moveStep: {fileID: 8300000, guid: 1cfa186fa1ec4aa4f8a9104245a89653, type: 3}
   getHit: {fileID: 8300000, guid: 53b6cf6c210f0964b82ef6cc17899c40, type: 3}
   monsterRoar: {fileID: 8300000, guid: 8b4eafa52de6c9847a4615e309b6aabf, type: 3}
   monsterChase: {fileID: 8300000, guid: f3801da2770c4974d811652088643244, type: 3}
+  water: {fileID: 8300000, guid: 92df1dac0dd59eb478b533d786eff67c, type: 3}
+  birdSound: {fileID: 8300000, guid: 82397a2f6a6c2eb44ba73f2ef83dcff2, type: 3}
 --- !u!4 &862398875
 Transform:
   m_ObjectHideFlags: 0

@@ -7,9 +7,16 @@ public class GameOver : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>() ;   
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
+    private void Start()
+    {
+        if (audioManager != null)
+        {
+            audioManager.PlayMusic(audioManager.menuBackGround);
+        }
+    }
     public void ExitGame()
     {
         audioManager.PlaySFX(audioManager.menuButton);
@@ -20,6 +27,7 @@ public class GameOver : MonoBehaviour
     {
         audioManager.PlaySFX(audioManager.menuButton);
         Invoke("LoadGame", 0.5f);
+        audioManager.StopMusic();
     }
 
     private void LoadGame()

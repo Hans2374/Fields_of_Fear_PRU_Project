@@ -132,6 +132,7 @@ public class CharacterMovement : MonoBehaviour
         {
             animator.SetTrigger("Watering");
             Stamina -= AttackCost;
+            audioManager.PlaySFX(audioManager.water);
 
             if (Stamina < 0) Stamina = 0;
             StaminaBar.fillAmount = Stamina / MaxStamina;
