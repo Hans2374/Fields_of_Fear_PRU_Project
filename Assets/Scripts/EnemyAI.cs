@@ -199,7 +199,7 @@ public class EnemyAI : MonoBehaviour
             if (hitCount >= hearts.Length)
             {
                 StopChaseMusic();
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene(4);
                 yield break;
             }
         }
