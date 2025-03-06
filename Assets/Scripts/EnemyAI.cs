@@ -199,8 +199,6 @@ public class EnemyAI : MonoBehaviour
             if (hitCount >= hearts.Length)
             {
                 StopChaseMusic();
-                audioManager.StopMusic();
-                audioManager.StopSFX();
                 SceneManager.LoadScene(3);
                 yield break;
             }
@@ -225,7 +223,8 @@ public class EnemyAI : MonoBehaviour
     {
         if (audioManager != null)
         {
-            audioManager.StopSFX(); // 🔥 Dừng nhạc SFX chase
+            audioManager.StopSFX();
+            audioManager.StopMusic(); // 🔥 Dừng nhạc SFX chase
         }
     }
 }

@@ -12,6 +12,8 @@ public class GameOver : MonoBehaviour
 
     private void Start()
     {
+        audioManager.StopSFX();
+        audioManager.StopMusic();
         if (audioManager != null)
         {
             audioManager.PlayMusic(audioManager.menuBackGround);
@@ -32,6 +34,6 @@ public class GameOver : MonoBehaviour
 
     private void LoadGame()
     {
-        SceneManager.LoadSceneAsync(0);
+        SceneManager.LoadSceneAsync(1);
     }
 }

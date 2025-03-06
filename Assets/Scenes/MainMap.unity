@@ -4048,7 +4048,7 @@ Transform:
   m_GameObject: {fileID: 744356440}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -61.43, y: -48.08, z: 0}
+  m_LocalPosition: {x: -75.17, y: -54.22, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4337,6 +4337,7 @@ MonoBehaviour:
   monsterChase: {fileID: 8300000, guid: f3801da2770c4974d811652088643244, type: 3}
   water: {fileID: 8300000, guid: 92df1dac0dd59eb478b533d786eff67c, type: 3}
   birdSound: {fileID: 8300000, guid: 82397a2f6a6c2eb44ba73f2ef83dcff2, type: 3}
+  carMove: {fileID: 0}
 --- !u!4 &862398875
 Transform:
   m_ObjectHideFlags: 0

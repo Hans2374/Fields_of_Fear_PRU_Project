@@ -27,19 +27,14 @@ public class MainMenu : MonoBehaviour
 
     private void LoadGame()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(2);
     }
 
     public void ExitGame()
     {
         audioManager.PlaySFX(audioManager.menuButton);
         Application.Quit();
-    }
-
-    public void Continue()
-    {
-        audioManager.PlaySFX(audioManager.menuButton);
-    }
+    }   
 
     public void MenuSetting()
     {

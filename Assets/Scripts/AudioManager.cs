@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip monsterChase;
     public AudioClip water;
     public AudioClip birdSound;
+    public AudioClip carMove;
 
 
      private void Start()
