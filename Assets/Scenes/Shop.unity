@@ -833,7 +833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e0522aa1d9f094c8d267e7a63a3ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneBuildIndex: 1
+  sceneBuildIndex: 2
   playerPositionInNewScene: {x: -20.8, y: -1}
 --- !u!61 &1561666682
 BoxCollider2D:
