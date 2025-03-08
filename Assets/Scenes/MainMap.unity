@@ -27707,7 +27707,7 @@ MonoBehaviour:
   rows: 9
   spacingX: 1.5
   spacingY: 1.5
-  startPosition: {x: -76, y: -37}
+  startPosition: {x: -76, y: -35}
   inventoryUI: {fileID: 1734247902}
 --- !u!1 &2093845740
 GameObject:

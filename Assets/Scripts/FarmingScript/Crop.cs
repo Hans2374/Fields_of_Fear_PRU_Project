@@ -86,5 +86,7 @@ public class Crop : MonoBehaviour
         }
         Debug.Log($"{cropData.cropName} đã chín! 🌱");
     }
+
+
 }
 

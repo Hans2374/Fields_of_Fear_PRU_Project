@@ -56,14 +56,24 @@ public class FarmLandManager : MonoBehaviour
 
                             if (inventoryUI.selectedItem.crop != null)
                             {
+                                // ✅ Kiểm tra nếu hết hạt giống thì không cho trồng
+                                if (inventoryUI.selectedItem.amount <= 0)
+                                {
+                                    Debug.Log("⚠ Không còn hạt giống, không thể trồng cây!");
+                                    return;
+                                }
+
                                 Debug.Log($"🌱 Dữ liệu cây trồng hợp lệ: {inventoryUI.selectedItem.crop.cropName}");
                                 farmland.PlantCrop(inventoryUI.selectedItem.crop);
 
-                                // Trừ số lượng hạt giống trong kho
+                                // 🔻 Trừ số lượng hạt giống
                                 inventoryUI.selectedItem.amount--;
+
+                                // Nếu hết hạt giống, xóa khỏi kho đồ
                                 if (inventoryUI.selectedItem.amount <= 0)
                                 {
                                     inventoryUI.inventory.RemoveItem(inventoryUI.selectedItem);
+                                    inventoryUI.selectedItem = null; // Xóa item đang chọn
                                 }
 
                                 // Cập nhật lại UI kho đồ
@@ -94,6 +104,68 @@ public class FarmLandManager : MonoBehaviour
                 Debug.Log("⚠ Raycast không trúng gì cả!");
             }
         }
+
+        //if (Input.GetMouseButtonDown(0)) // Click chuột trái để trồng cây
+        //{
+        //    Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+
+        //    if (hit.collider != null)
+        //    {
+        //        Debug.Log($"🖱 Click vào: {hit.collider.gameObject.name}, Tag: {hit.collider.tag}");
+
+        //        if (hit.collider.CompareTag("Farmland"))
+        //        {
+        //            Farmland farmland = hit.collider.GetComponent<Farmland>();
+
+        //            if (farmland != null)
+        //            {
+        //                Debug.Log("✅ Đã nhận diện ô Farmland!");
+
+        //                if (inventoryUI.selectedItem != null)
+        //                {
+        //                    Debug.Log($"🌱 Đang thử trồng cây từ item: {inventoryUI.selectedItem.itemType}");
+
+        //                    if (inventoryUI.selectedItem.crop != null)
+        //                    {
+        //                        Debug.Log($"🌱 Dữ liệu cây trồng hợp lệ: {inventoryUI.selectedItem.crop.cropName}");
+        //                        farmland.PlantCrop(inventoryUI.selectedItem.crop);
+
+        //                        // Trừ số lượng hạt giống trong kho
+        //                        inventoryUI.selectedItem.amount--;
+        //                        if (inventoryUI.selectedItem.amount <= 0)
+        //                        {
+        //                            inventoryUI.inventory.RemoveItem(inventoryUI.selectedItem);
+        //                        }
+
+        //                        // Cập nhật lại UI kho đồ
+        //                        inventoryUI.UpdateInventoryUI();
+        //                    }
+        //                    else
+        //                    {
+        //                        Debug.Log("⚠ Item đã chọn không có dữ liệu cây trồng!");
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    Debug.Log("⚠ Chưa chọn hạt giống!");
+        //                }
+        //            }
+        //            else
+        //            {
+        //                Debug.Log("⚠ Không tìm thấy component Farmland!");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Debug.Log("⚠ Click không phải vào Farmland!");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("⚠ Raycast không trúng gì cả!");
+        //    }
+        //}
     }
 
 }

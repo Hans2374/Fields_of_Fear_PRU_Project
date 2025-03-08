@@ -85,7 +85,7 @@ public class Farmland : MonoBehaviour
         if (sr != null)
         {
             sr.sortingLayerName = "WalkBehind";
-            sr.sortingOrder = 5;
+            sr.sortingOrder = 5; 
         }
     }
 }
