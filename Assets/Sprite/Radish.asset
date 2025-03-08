@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02df1eb4bb1a38540ba47d2c5569b786, type: 3}
+  m_Name: Radish
+  m_EditorClassIdentifier: 
+  cropName: Radish
+  timeToGrow: 10
+  growthStages:
+  - {fileID: 143622543244901141, guid: 431819ad1fa27a54bb03cf937b16b4ed, type: 3}
+  - {fileID: 2102007722225642905, guid: 626bc63bb27f182498e0f7ab462cf82c, type: 3}
+  - {fileID: 3368198429455980946, guid: 17c76a10330294445bf504916d5c603f, type: 3}
+  yield:
+    amount: 0
+    itemType: 0
+  count: 1

@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +27,14 @@ public class Inventory
 
     public void AddItem(Item item)
     {
-        if(item.IsStackable())
+
+        if (item.crop == null)
+        {
+            Debug.LogWarning($"⚠ Item {item.itemType} chưa có dữ liệu cây trồng!");
+        }
+        
+        OnItemListChanged?.Invoke(this, EventArgs.Empty);
+        if (item.IsStackable())
         {
             bool itemAlreadyInInventory = false;
             foreach (Item inventoryItem in items)

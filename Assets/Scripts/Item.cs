@@ -21,7 +21,10 @@ public class Item
     
     public int amount;
     public ItemType itemType;
+    public CropData crop; // ✅ Thêm dữ liệu cây trồng
 
+    // Danh sách các sprite cho từng giai đoạn phát triển
+    public Sprite[] growthStages;
     public Sprite GetSprite()
     {
         switch (itemType)

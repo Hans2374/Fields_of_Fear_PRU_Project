@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using CodeMonkey;
+using JetBrains.Annotations;
 using System;
 using TMPro;
 using UnityEditor.Animations;
@@ -6,10 +7,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
-    private Inventory inventory;
+    public Inventory inventory;
     public Transform itemSlotContainer;
     public Transform itemSlotTemplate;
     private CharacterMovement player;
+    public Item selectedItem;
     private void Awake()
     {
         itemSlotContainer = transform.Find("ItemSlotContainer");
@@ -42,7 +44,21 @@ public class InventoryUI : MonoBehaviour
         RefreshInventoryItems();
     }
 
-    private void RefreshInventoryItems()
+    public void SelectItem(Item item)
+    {
+        if (item != null)
+        {
+            selectedItem = item;
+            Debug.Log($"✅ Đã chọn item: {item.itemType}, Số lượng: {item.amount}, CropData: {item.crop?.cropName ?? "NULL"}");
+        }
+        else
+        {
+            Debug.LogWarning("⚠ Không thể chọn item vì nó NULL!");
+        }
+    }
+
+
+    public void RefreshInventoryItems()
     {
         foreach (Transform child in itemSlotContainer)
         {
@@ -67,11 +83,18 @@ public class InventoryUI : MonoBehaviour
             RectTransform itemSlotTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotTransform.gameObject.SetActive(true);
 
-            //itemSlotTransform.GetComponent<Button_UI>().ClickFunc = () =>
-            //{
-            //    //Use item
-            //};
-            
+            // ✅ Gán sự kiện click vào button của item slot
+            Button button = itemSlotTransform.GetComponent<Button>();
+            if (button != null)
+            {
+                button.onClick.RemoveAllListeners(); // Xóa event cũ để tránh lỗi click sai
+                button.onClick.AddListener(() => SelectItem(item)); // Gán sự kiện chọn item
+            }
+            else
+            {
+                Debug.LogWarning("⚠ Item slot không có Button component!");
+            }
+
             Image image = itemSlotTransform.Find("Image").GetComponent<Image>();
             image.sprite = item.GetSprite();
             TextMeshProUGUI text = itemSlotTransform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
@@ -86,78 +109,10 @@ public class InventoryUI : MonoBehaviour
 
         }
     }
-    //private void RefreshInventoryItems()
-    //{
-    //    if (itemSlotContainer == null)
-    //    {
-    //        Debug.LogError("itemSlotContainer chưa được khởi tạo!");
-    //        return;
-    //    }
-    //    if (itemSlotTemplate == null)
-    //    {
-    //        Debug.LogError("itemSlotTemplate chưa được khởi tạo!");
-    //        return;
-    //    }
-    //    if (inventory == null)
-    //    {
-    //        Debug.LogError("inventory chưa được khởi tạo!");
-    //        return;
-    //    }
-    //    if (inventory.GetItems() == null)
-    //    {
-    //        Debug.LogError("inventory.GetItems() trả về null!");
-    //        return;
-    //    }
 
-    //    foreach (Transform child in itemSlotContainer)
-    //    {
-    //        if (child != itemSlotTemplate)
-    //        {
-    //            Destroy(child.gameObject);
-    //        }
-    //    }
-
-    //    foreach (Item item in inventory.GetItems())
-    //    {
-    //        RectTransform itemSlotTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
-    //        if (itemSlotTransform == null)
-    //        {
-    //            Debug.LogError("itemSlotTransform bị null sau khi Instantiate!");
-    //            continue;
-    //        }
-
-    //        itemSlotTransform.gameObject.SetActive(true);
-
-    //        Image image = itemSlotTransform.Find("Image")?.GetComponent<Image>();
-    //        if (image == null)
-    //        {
-    //            Debug.LogError("Không tìm thấy component Image trên itemSlotTransform!");
-    //            continue;
-    //        }
-
-    //        Sprite sprite = item.GetSprite();
-    //        if (sprite == null)
-    //        {
-    //            Debug.LogError($"Sprite của {item.itemType} bị null!");
-    //        }
-    //        else
-    //        {
-    //            image.sprite = sprite;
-    //        }
-
-    //        TextMeshProUGUI text = itemSlotTransform.Find("Text")?.GetComponent<TextMeshProUGUI>();
-    //        if (text == null)
-    //        {
-    //            Debug.LogError("Không tìm thấy component TextMeshProUGUI trên itemSlotTransform!");
-    //            continue;
-    //        }
-
-    //        text.SetText(item.amount > 1 ? item.amount.ToString() : "");
-    //    }
-    //}
-
-
-
-
-
+    // ✅ Cập nhật UI khi trồng cây (gọi từ FarmLandManager)
+    public void UpdateInventoryUI()
+    {
+        RefreshInventoryItems();
+    }
 }
