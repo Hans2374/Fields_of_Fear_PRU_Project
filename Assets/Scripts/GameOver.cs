@@ -34,6 +34,6 @@ public class GameOver : MonoBehaviour
 
     private void LoadGame()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(0);
     }
 }

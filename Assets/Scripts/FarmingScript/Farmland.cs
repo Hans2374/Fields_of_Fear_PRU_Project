@@ -58,8 +58,13 @@ using UnityEngine;
 
 public class Farmland : MonoBehaviour
 {
+    AudioManager audioManager;
     private Crop currentCrop; // Cây trồng hiện tại
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     public void PlantCrop(CropData cropData)
     {
         if (cropData == null || cropData.growthStages.Length == 0)
@@ -72,6 +77,7 @@ public class Farmland : MonoBehaviour
         if (currentCrop != null) Destroy(currentCrop.gameObject);
 
         // Tạo GameObject mới để làm cây trồng
+        audioManager.PlaySFX(audioManager.crops);
         GameObject newCrop = new GameObject(cropData.cropName);
         newCrop.transform.position = transform.position;
         newCrop.transform.SetParent(transform);
@@ -85,7 +91,7 @@ public class Farmland : MonoBehaviour
         if (sr != null)
         {
             sr.sortingLayerName = "WalkBehind";
-            sr.sortingOrder = 5; 
+            sr.sortingOrder = 5;
         }
     }
 }

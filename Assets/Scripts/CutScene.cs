@@ -67,6 +67,16 @@ public class CutScene : MonoBehaviour
         audioManager.StopMusic(); // Dừng nhạc nền
         audioManager.PlaySFX(audioManager.carMove); // Phát âm thanh xe di chuyển
         yield return new WaitForSeconds(timeBeforeMove); // Chờ một chút
-        SceneManager.LoadSceneAsync(1); // Chuyển scene
+        SceneManager.LoadSceneAsync(2); // Chuyển scene
+    }
+
+    public void SkipCutscene()
+    {
+        audioManager.PlaySFX(audioManager.menuButton);
+        StopAllCoroutines(); 
+        isCarMoving = false; 
+       
+        audioManager.StopMusic();
+        SceneManager.LoadSceneAsync(2);
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class EnemyAI : MonoBehaviour
 {
     private float lastRoarTime = 0f;
-    [SerializeField] private float roarCooldown = 5f; // Khoảng thời gian tối thiểu giữa 2 lần Roar
+    [SerializeField] private float roarCooldown = 10f; // Khoảng thời gian tối thiểu giữa 2 lần Roar
 
     AudioManager audioManager;
     public float moveSpeed = 2f;
@@ -23,6 +23,7 @@ public class EnemyAI : MonoBehaviour
     private bool isAttacking = false;
     private bool isFrozen = false;
     private bool isNight = false;
+    public float timeBeforeMove = 1f;
 
 
     [SerializeField] private WorldTime _worldTime;
@@ -95,14 +96,13 @@ public class EnemyAI : MonoBehaviour
             }
 
             gameObject.SetActive(true);
-            audioManager.PlaySFX(audioManager.monsterRoar);
         }
     }
 
     void Update()
     {
         if (!gameObject.activeInHierarchy || isFrozen) return;
-        if (isFrozen) return; // 🔥 Nếu bị đóng băng, quái vật không di chuyển
+        if (isFrozen) return; // Nếu bị đóng băng, quái vật không di chuyển
 
         if (player != null && !isAttacking)
         {
@@ -120,7 +120,7 @@ public class EnemyAI : MonoBehaviour
 
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
 
-        // 🔥 Cập nhật animation dựa trên trạng thái
+        // Cập nhật animation dựa trên trạng thái
         animator.SetBool("walk", moveDirection.magnitude > 0);
         animator.SetBool("attack", isAttacking);
         animator.SetBool("idle", moveDirection.magnitude == 0 && !isAttacking);
@@ -192,12 +192,13 @@ public class EnemyAI : MonoBehaviour
             if (hitCount < hearts.Length)
             {
                 hearts[hitCount].sprite = emptyHeart;
-                audioManager.PlaySFX(audioManager.getHit);
+                audioManager.PlaySFX(audioManager.getHit);               
                 hitCount++;
             }
 
             if (hitCount >= hearts.Length)
-            {
+            {                              
+                audioManager.PlaySFX(audioManager.getHit);  
                 StopChaseMusic();
                 SceneManager.LoadScene(4);
                 yield break;
@@ -208,7 +209,7 @@ public class EnemyAI : MonoBehaviour
         animator.SetBool("idle", true);
         animator.SetBool("walk", false);
 
-        // 🔥 Nếu đây là lần tấn công đầu tiên, quái vật sẽ đứng yên 5 giây
+        // Nếu đây là lần tấn công đầu tiên, quái vật sẽ đứng yên 5 giây
         if (hitCount == 1)
         {
             isFrozen = true; // Đóng băng quái vật
@@ -224,7 +225,7 @@ public class EnemyAI : MonoBehaviour
         if (audioManager != null)
         {
             audioManager.StopSFX();
-            audioManager.StopMusic(); // 🔥 Dừng nhạc SFX chase
+            audioManager.StopMusic(); 
         }
     }
 }
