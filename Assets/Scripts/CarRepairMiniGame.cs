@@ -17,6 +17,8 @@ public class CarRepairMiniGame : MonoBehaviour
     public Slider progressSlider;    // Slider cho tiến độ
     public float successIncrement = 0.2f; // Mỗi lần bấm đúng, tăng 20%
 
+    public static int MinigameCompletionCount { get; private set; } = 0;
+
     private void OnEnable()
     {
         // Khi miniGameUI được bật, reset trạng thái
@@ -59,6 +61,8 @@ public class CarRepairMiniGame : MonoBehaviour
                 if (progressSlider.value >= 1f)
                 {
                     Debug.Log("Sửa xe xong!");
+                    MinigameCompletionCount++; // Tăng số lần hoàn thành
+                    Debug.Log("Số lần hoàn thành mini-game: " + MinigameCompletionCount);
                     EndMinigame();
                 }
             }
