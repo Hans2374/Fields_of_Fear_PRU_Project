@@ -2,43 +2,27 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform defaultSpawnPoint;
+    [SerializeField] private string spawnPointID;
+
+    // Property to access the ID from other scripts
+    public string SpawnPointID => spawnPointID;
 
     private void Start()
     {
-        // Get player reference - it should exist because of DontDestroyOnLoad
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log($"[PlayerSpawner] Initialized: {gameObject.name}, ID: {spawnPointID}, Position: {transform.position}");
+    }
 
-        if (player != null)
-        {
-            // Position player based on transition data
-            if (GameManager.instance != null && GameManager.instance.IsComingFromTransition())
-            {
-                player.transform.position = GameManager.instance.GetPlayerSpawnPoint();
-            }
-            else if (defaultSpawnPoint != null)
-            {
-                player.transform.position = defaultSpawnPoint.position;
-            }
-        }
-        else
-        {
-            Debug.LogError("Player not found. Make sure it has the 'Player' tag and PersistentPlayer component.");
-        }
+    // Visual gizmo to see spawn points in the editor
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 0.5f); // Changed to wire sphere for 2D visibility
+        Vector3 forward2D = new Vector3(transform.right.x, transform.right.y, 0); // Use right vector for 2D forward
+        Gizmos.DrawRay(transform.position, forward2D * 2);
 
-        if (player != null)
-        {
-            if (GameManager.instance != null && GameManager.instance.IsComingFromTransition())
-            {
-                Vector2 spawnPoint = GameManager.instance.GetPlayerSpawnPoint();
-                Debug.Log("Positioning player at: " + spawnPoint); // Add this line
-                player.transform.position = spawnPoint;
-            }
-            else if (defaultSpawnPoint != null)
-            {
-                Debug.Log("Using default spawn at: " + defaultSpawnPoint.position); // Add this line
-                player.transform.position = defaultSpawnPoint.position;
-            }
-        }
+        // Draw text in scene view - only works in editor
+#if UNITY_EDITOR
+        UnityEditor.Handles.Label(transform.position + Vector3.up, $"ID: {spawnPointID}");
+#endif
     }
 }

@@ -200,7 +200,7 @@ public class EnemyAI : MonoBehaviour
             {                              
                 audioManager.PlaySFX(audioManager.getHit);  
                 StopChaseMusic();
-                SceneManager.LoadScene(4);
+                SceneManager.LoadScene(3);
                 yield break;
             }
         }
