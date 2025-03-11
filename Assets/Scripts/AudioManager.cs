@@ -19,6 +19,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip birdSound;
     public AudioClip carMove;
     public AudioClip crops;
+    public AudioClip carFail;
+    public AudioClip carIncrease;
+    public AudioClip carDone;
 
 
      private void Start()

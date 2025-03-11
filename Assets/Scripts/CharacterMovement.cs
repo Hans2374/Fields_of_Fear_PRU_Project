@@ -6,6 +6,7 @@ using static UnityEditor.Progress;
 
 public class CharacterMovement : MonoBehaviour
 {
+    public bool isWatering = false;
     private float stepTimer = 0f;
     AudioManager audioManager;
     public float moveSpeed = 5f;
@@ -70,8 +71,13 @@ public class CharacterMovement : MonoBehaviour
         // Nếu đang tưới nước, không cho phép di chuyển
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering"))
         {
+            isWatering = true;
             movement = Vector2.zero;
             return;
+        }
+        else
+        {
+            isWatering = false;  // Đánh dấu không còn tưới nước
         }
 
         // Lấy input từ người dùng

@@ -67,12 +67,12 @@ public class EnemyAI : MonoBehaviour
             if (!isNight)
             {
                 isNight = true;
-                TrySpawn(0.8f); // 80% spawn vào ban đêm
+                TrySpawn(0.6f); // 60% spawn vào ban đêm
             }
         }
         else if (isDaytimeSpawn)
         {
-            TrySpawn(0.2f); // 20% spawn vào ban ngày
+            TrySpawn(0.1f); // 10% spawn vào ban ngày
         }
         else
         {
@@ -89,11 +89,11 @@ public class EnemyAI : MonoBehaviour
             float spawnX = UnityEngine.Random.Range(spawnMin.x, spawnMax.x);
             float spawnY = UnityEngine.Random.Range(spawnMin.y, spawnMax.y);
             // Kiểm tra nếu đủ cooldown thì mới Roar
-            if (Time.time - lastRoarTime >= roarCooldown)
-            {
-                audioManager.PlaySFX(audioManager.monsterRoar);
-                lastRoarTime = Time.time; // Cập nhật thời gian Roar mới nhất
-            }
+            // if (Time.time - lastRoarTime >= roarCooldown)
+            // {
+            //     audioManager.PlaySFX(audioManager.monsterRoar);
+            //     lastRoarTime = Time.time; // Cập nhật thời gian Roar mới nhất
+            // }
 
             gameObject.SetActive(true);
         }
@@ -148,6 +148,7 @@ public class EnemyAI : MonoBehaviour
                 audioManager.StopMusic();
                 audioManager.StopSFX();
                 audioManager.PlayMusic(audioManager.monsterChase);
+                audioManager.PlaySFX(audioManager.monsterRoar);
             }
         }
     }
@@ -160,13 +161,14 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("attack", false);
             ChooseRandomDirection();
 
-
             if (audioManager != null)
             {
                 audioManager.StopMusic();
+                audioManager.StopSFX();
                 audioManager.PlayMusic(audioManager.morningSound);
                 audioManager.PlaySFX(audioManager.birdSound);
             }
+
         }
     }
 
@@ -191,14 +193,13 @@ public class EnemyAI : MonoBehaviour
         {
             if (hitCount < hearts.Length)
             {
+                audioManager.PlaySFX(audioManager.getHit);
                 hearts[hitCount].sprite = emptyHeart;
-                audioManager.PlaySFX(audioManager.getHit);               
                 hitCount++;
             }
 
             if (hitCount >= hearts.Length)
-            {                              
-                audioManager.PlaySFX(audioManager.getHit);  
+            {
                 StopChaseMusic();
                 SceneManager.LoadScene(3);
                 yield break;
@@ -225,7 +226,7 @@ public class EnemyAI : MonoBehaviour
         if (audioManager != null)
         {
             audioManager.StopSFX();
-            audioManager.StopMusic(); 
+            audioManager.StopMusic();
         }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class CarRepairMiniGame : MonoBehaviour
 {
+    AudioManager audioManager;
     [Header("Thanh trượt chạy qua lại")]
     public Slider movingSlider;      // Slider “điểm” di chuyển
     public float moveSpeed = 1f;     // Tốc độ di chuyển
@@ -19,6 +20,10 @@ public class CarRepairMiniGame : MonoBehaviour
 
     public static int MinigameCompletionCount { get; private set; } = 0;
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     private void OnEnable()
     {
         // Khi miniGameUI được bật, reset trạng thái
@@ -56,6 +61,7 @@ public class CarRepairMiniGame : MonoBehaviour
             {
                 // Thành công
                 progressSlider.value += successIncrement;
+                audioManager.PlaySFX(audioManager.carIncrease);
 
                 // Kiểm tra nếu progress đầy
                 if (progressSlider.value >= 1f)
@@ -70,6 +76,7 @@ public class CarRepairMiniGame : MonoBehaviour
             {
                 // Thất bại hoặc phạt
                 Debug.Log("Nhấn sai thời điểm!");
+                audioManager.PlaySFX(audioManager.carFail);
             }
         }
 

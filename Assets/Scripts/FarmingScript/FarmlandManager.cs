@@ -2,6 +2,7 @@
 
 public class FarmLandManager : MonoBehaviour
 {
+    public CharacterMovement player;
     public GameObject farmLandPrefab;  // Prefab của ô đất
     public int columns = 3;  // Số cột
     public int rows = 9;  // Số hàng
@@ -12,6 +13,10 @@ public class FarmLandManager : MonoBehaviour
     private void Start()
     {
         GenerateFarmLands();
+        if (player == null)
+    {
+        player = FindObjectOfType<CharacterMovement>();
+    }
     }
 
     private void GenerateFarmLands()
@@ -35,6 +40,11 @@ public class FarmLandManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) // Click chuột trái để trồng cây
         {
+            if (player != null && !player.isWatering)
+        {
+            Debug.Log("⚠ Bạn phải tưới nước trước khi trồng cây!");
+            return;
+        }
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
