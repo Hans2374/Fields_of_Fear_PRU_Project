@@ -18,3 +18,4 @@ MonoBehaviour:
   - {fileID: -4858745760592137261, guid: 36ad2061e9b93c746b3859c2126a91db, type: 3}
   - {fileID: -6728494050840446046, guid: f02e8c533a3307543a3b4f1f72bb0007, type: 3}
   timeToGrow: 10
+  sellPrice: 20

@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: Radish
   m_EditorClassIdentifier: 
   cropName: Radish
-  timeToGrow: 10
   growthStages:
   - {fileID: 143622543244901141, guid: 431819ad1fa27a54bb03cf937b16b4ed, type: 3}
   - {fileID: 2102007722225642905, guid: 626bc63bb27f182498e0f7ab462cf82c, type: 3}
   - {fileID: 3368198429455980946, guid: 17c76a10330294445bf504916d5c603f, type: 3}
-  yield:
-    amount: 0
-    itemType: 0
-  count: 1
+  timeToGrow: 10
+  sellPrice: 25
