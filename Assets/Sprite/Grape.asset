@@ -13,12 +13,9 @@ MonoBehaviour:
   m_Name: Grape
   m_EditorClassIdentifier: 
   cropName: Grape
-  timeToGrow: 10
   growthStages:
   - {fileID: -4852704753483212509, guid: 3e2be2058b374a742a7f88c7baef83f4, type: 3}
   - {fileID: 3352919281923823923, guid: 50935f2ed4d14cd46af0bfc056621c72, type: 3}
   - {fileID: 6081272026163692358, guid: 765aed68bc249d245adb3abbf9fea802, type: 3}
-  yield:
-    amount: 0
-    itemType: 0
-  count: 1
+  timeToGrow: 10
+  sellPrice: 20

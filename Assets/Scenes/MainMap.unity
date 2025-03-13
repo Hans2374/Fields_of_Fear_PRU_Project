@@ -40712,7 +40712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    amount: 10
+    amount: 1
     itemType: 1
     crop: {fileID: 11400000, guid: c3ad626913f9eb84a97a445760ee7d9d, type: 2}
     growthStages: []
@@ -41181,7 +41181,7 @@ MonoBehaviour:
   rows: 9
   spacingX: 1.5
   spacingY: 1.5
-  startPosition: {x: -76, y: -35}
+  startPosition: {x: -76.5, y: -35}
   inventoryUI: {fileID: 1734247902}
 --- !u!1 &2091358816
 GameObject:

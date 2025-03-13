@@ -63,6 +63,7 @@ public class Crop : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public CropData cropData;
     private int growthStage = 0;
+    private bool isFullyGrown = false;
 
     public void Init(CropData data)
     {
@@ -84,9 +85,38 @@ public class Crop : MonoBehaviour
             spriteRenderer.sprite = cropData.growthStages[growthStage];
             Debug.Log($"{cropData.cropName} đã phát triển đến giai đoạn {growthStage}");
         }
+
+        
         Debug.Log($"{cropData.cropName} đã chín! 🌱");
+        isFullyGrown = true;
     }
 
+    private void Update()
+    {
+        if(isFullyGrown && Input.GetMouseButtonDown(1))
+        {
+            HarvestCrop();
+        }
+    }
 
+    private void HarvestCrop()
+    {
+        if(!isFullyGrown)
+        {
+            Debug.LogWarning("Cây chưa chín, không thể thu hoạch!");
+            return;
+        }
+
+        if(CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.AddMoney(cropData.sellPrice);
+            Debug.Log($"Đã thu hoạch {cropData.cropName} và nhận được {cropData.sellPrice} tiền!");
+        }
+        else
+        {
+            Debug.LogWarning("CurrencyManager instance not found!");
+        }
+        Destroy(gameObject);
+    }
 }
 

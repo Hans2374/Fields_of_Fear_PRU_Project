@@ -94,6 +94,15 @@ public class Farmland : MonoBehaviour
             sr.sortingOrder = 5;
         }
     }
+
+    public void ClearCrop()
+    {
+        if (currentCrop != null)
+        {
+            Destroy(currentCrop.gameObject);
+            currentCrop = null;
+        }
+    }
 }
 
 

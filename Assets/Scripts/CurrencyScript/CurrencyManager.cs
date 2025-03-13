@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using TMPro;
 
@@ -126,14 +126,20 @@ public class CurrencyManager : MonoBehaviour
     // Load money from PlayerPrefs
     private void LoadMoney()
     {
-        if (PlayerPrefs.HasKey("PlayerMoney"))
-        {
-            CurrentMoney = PlayerPrefs.GetInt("PlayerMoney");
-        }
-        else
-        {
-            CurrentMoney = startingMoney;
-        }
+        //if (PlayerPrefs.HasKey("PlayerMoney"))
+        //{
+        //    CurrentMoney = PlayerPrefs.GetInt("PlayerMoney");
+        //}
+        //else
+        //{
+        //    CurrentMoney = startingMoney;
+        //}
+
+        // Mỗi lần mở game, cộng thêm 50 tiền
+        CurrentMoney += 100;
+
+        // Cập nhật hiển thị tiền trên UI
+        UpdateMoneyDisplay();
     }
 
     // Reset money (for testing or new game)
