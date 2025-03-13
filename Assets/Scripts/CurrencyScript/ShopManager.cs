@@ -348,7 +348,7 @@ public class ShopManager : MonoBehaviour
     {
         if (audioManager != null)
         {
-            audioManager.PlaySFX(audioManager.menuButton);
+            audioManager.PlaySFX(audioManager.moneySpend);
         }
     }
 

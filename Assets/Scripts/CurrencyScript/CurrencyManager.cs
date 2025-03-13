@@ -41,7 +41,7 @@ public class CurrencyManager : MonoBehaviour
             // Play sound effect (if money increased)
             if (_currentMoney > oldValue && audioManager != null)
             {
-                audioManager.PlaySFX(audioManager.menuButton); // You might want to add a specific money sound
+                audioManager.PlaySFX(audioManager.moneyIncrease); // You might want to add a specific money sound
             }
         }
     }

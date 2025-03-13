@@ -3,6 +3,7 @@ using TMPro;
 
 public class ShopInteractableItem : MonoBehaviour
 {
+    AudioManager audioManager;
     [Header("Item Settings")]
     [SerializeField] private bool isCarPart = false;
     [SerializeField] private GameObject interactionPrompt;
@@ -15,6 +16,10 @@ public class ShopInteractableItem : MonoBehaviour
     // Player detection
     private bool playerInRange = false;
 
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
     private void Start()
     {
         // Find managers

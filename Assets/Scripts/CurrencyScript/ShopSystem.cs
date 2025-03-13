@@ -127,10 +127,8 @@ public class ShopSystem : MonoBehaviour
             OpenShop();
 
             // Play bell sound
-            if (audioManager != null)
-            {
-                audioManager.PlaySFX(audioManager.menuButton); // Replace with a bell sound
-            }
+                audioManager.PlaySFX(audioManager.bellDoor); // Replace with a bell sound
+          
 
             // Refresh inventory at the start of each day
             RefreshShopInventory();
@@ -229,10 +227,9 @@ public class ShopSystem : MonoBehaviour
         PopulateShopUI();
 
         // Play sound
-        if (audioManager != null)
-        {
-            audioManager.PlaySFX(audioManager.menuButton);
-        }
+        
+            audioManager.PlaySFX(audioManager.bellDoor);
+      
     }
 
     // Close the shop UI
@@ -246,7 +243,7 @@ public class ShopSystem : MonoBehaviour
         // Play sound
         if (audioManager != null)
         {
-            audioManager.PlaySFX(audioManager.menuButton);
+            audioManager.PlaySFX(audioManager.bellDoor);
         }
     }
 
@@ -336,7 +333,7 @@ public class ShopSystem : MonoBehaviour
                 // Play success sound
                 if (audioManager != null)
                 {
-                    audioManager.PlaySFX(audioManager.menuButton);
+                    audioManager.PlaySFX(audioManager.moneySpend);
                 }
 
                 Debug.Log($"Purchased seed bundle for {bundlePrice}");
@@ -377,7 +374,7 @@ public class ShopSystem : MonoBehaviour
                 // Play success sound
                 if (audioManager != null)
                 {
-                    audioManager.PlaySFX(audioManager.menuButton);
+                    audioManager.PlaySFX(audioManager.moneySpend);
                 }
 
                 Debug.Log($"Purchased {seedType} for {seedPrice}");
@@ -412,7 +409,7 @@ public class ShopSystem : MonoBehaviour
             // Play success sound
             if (audioManager != null)
             {
-                audioManager.PlaySFX(audioManager.menuButton);
+                audioManager.PlaySFX(audioManager.moneySpend);
             }
 
             Debug.Log($"Purchased car part for {nextCarPartPrice}");

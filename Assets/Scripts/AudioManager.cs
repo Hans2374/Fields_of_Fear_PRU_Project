@@ -22,6 +22,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip carFail;
     public AudioClip carIncrease;
     public AudioClip carDone;
+    public AudioClip moneySpend;
+    public AudioClip bellDoor;
+    public AudioClip moneyIncrease;
 
 
      private void Start()

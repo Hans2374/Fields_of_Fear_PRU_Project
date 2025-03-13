@@ -98,6 +98,5 @@ public class CarRepairMiniGame : MonoBehaviour
             playerMovement.enabled = true;
         }
         // (Tuỳ ý) Mở lại di chuyển Player, ẩn/hiện HUD, v.v.
-        // Tùy logic game bạn
     }
 }

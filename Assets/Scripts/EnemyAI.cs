@@ -58,8 +58,8 @@ public class EnemyAI : MonoBehaviour
     {
         float timePercent = (float)newTime.TotalMinutes % WorldTimeConstants.MinutesInDay / WorldTimeConstants.MinutesInDay;
 
-        bool isNightTime = (timePercent > 0.75f || timePercent < 0.125f); // 18:00 - 3:00
-        bool isDaytimeSpawn = (timePercent > 0.375f && timePercent < 0.583f); // 9:00 - 14:00
+        bool isNightTime = (timePercent > 0.833f || timePercent < 0.083f); // 20:00 - 02:00
+        bool isDaytimeSpawn = (timePercent > 0.416f && timePercent < 0.5f); // 10:00 - 12:00
 
 
         if (isNightTime)

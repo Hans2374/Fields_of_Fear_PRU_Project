@@ -122,7 +122,7 @@ public class ShopItemUI : MonoBehaviour
                 // Play purchase sound
                 if (audioManager != null)
                 {
-                    audioManager.PlaySFX(audioManager.menuButton);
+                    audioManager.PlaySFX(audioManager.moneySpend);
                 }
 
                 // Call purchase callback
