@@ -31,45 +31,66 @@ public class CharacterMovement : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+
+        // Log warning if StaminaBar is missing
+        if (StaminaBar == null)
+        {
+            Debug.LogWarning("StaminaBar reference is missing in CharacterMovement!");
+        }
     }
 
     private void Awake()
     {
+        // Find AudioManager reference
+        audioManager = GameObject.FindGameObjectWithTag("Audio")?.GetComponent<AudioManager>();
+        if (audioManager == null)
+        {
+            Debug.LogWarning("AudioManager not found!");
+        }
 
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-
+        // Initialize inventory
         inventory = new Inventory();
-        inventoryUI.SetInventory(inventory);
-        inventoryUI.SetPlayer(this);
-        //ItemWorld.SpawnItemWorld(new Vector3(-32, -11), new Item { itemType = Item.ItemType.BerrySeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-29, -14), new Item { itemType = Item.ItemType.CarrotSeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-31, -10), new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-28, -13), new Item { itemType = Item.ItemType.CabbageSeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-30, -12), new Item { itemType = Item.ItemType.PotatoSeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-27, -15), new Item { itemType = Item.ItemType.RadishSeed, amount = 1 });
-        //ItemWorld.SpawnItemWorld(new Vector3(-26, -16), new Item { itemType = Item.ItemType.TomatoSeed, amount = 1 });
 
+        // Check and set inventory UI
+        if (inventoryUI != null)
+        {
+            inventoryUI.SetInventory(inventory);
+            inventoryUI.SetPlayer(this);
+        }
+        else
+        {
+            Debug.LogWarning("InventoryUI reference is missing in CharacterMovement!");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         ItemWorld itemWorld = collider.GetComponent<ItemWorld>();
-        if (itemWorld != null)
+        if (itemWorld != null && inventory != null)
         {
             inventory.AddItem(itemWorld.GetItem());
             itemWorld.DestroySelf();
         }
     }
+
     public Vector3 GetPosition()
     {
         return transform.position;
     }
 
+    // Safe method to update stamina bar
+    private void UpdateStaminaBar()
+    {
+        if (StaminaBar != null)
+        {
+            StaminaBar.fillAmount = Stamina / MaxStamina;
+        }
+    }
 
     void Update()
     {
-        // Nếu đang tưới nước, không cho phép di chuyển
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering"))
+        // If currently watering, don't allow movement
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering"))
         {
             isWatering = true;
             movement = Vector2.zero;
@@ -77,53 +98,44 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            isWatering = false;  // Đánh dấu không còn tưới nước
+            isWatering = false;
         }
 
-        // Lấy input từ người dùng
+        // Handle movement input
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
         movement = movement.normalized;
 
-        if (movement != Vector2.zero)
+        // Update animator parameters based on movement
+        if (animator != null)
         {
-            animator.SetBool("isWalking", true);
-            animator.SetFloat("MoveX", movement.x);
-            animator.SetFloat("MoveY", movement.y);
-
-            // Lưu hướng di chuyển cuối cùng
-            lastMoveX = movement.x;
-            lastMoveY = movement.y;
-
-            // Phát âm thanh bước chân
-            stepTimer += Time.deltaTime;
-            if (stepTimer >= 0.5f)
-            {
-                audioManager.PlaySFX(audioManager.moveStep);
-                stepTimer = 0f;
-            }
-        }
-        else
-        {
-            animator.SetBool("isWalking", false);
-            stepTimer = 0f;
-
-            // Khi dừng lại, dùng hướng cuối cùng để đặt trạng thái Idle phù hợp
             if (movement != Vector2.zero)
             {
                 animator.SetBool("isWalking", true);
                 animator.SetFloat("MoveX", movement.x);
                 animator.SetFloat("MoveY", movement.y);
+
+                // Store last movement direction
+                lastMoveX = movement.x;
+                lastMoveY = movement.y;
+
+                // Play footstep sounds
+                stepTimer += Time.deltaTime;
+                if (stepTimer >= 0.5f && audioManager != null)
+                {
+                    audioManager.PlaySFX(audioManager.moveStep);
+                    stepTimer = 0f;
+                }
             }
             else
             {
                 animator.SetBool("isWalking", false);
+                stepTimer = 0f;
             }
-
         }
 
-        // Xử lý chạy khi giữ Shift
+        // Handle running with shift
         if (Input.GetKeyDown(KeyCode.LeftShift) && movement != Vector2.zero)
         {
             isRunning = true;
@@ -133,24 +145,36 @@ public class CharacterMovement : MonoBehaviour
             isRunning = false;
         }
 
-        // Nhấn F để tưới nước nếu đủ Stamina
+        // Handle watering action
         if (Input.GetKeyDown(KeyCode.F) && Stamina >= AttackCost && movement == Vector2.zero)
         {
-            animator.SetTrigger("Watering");
+            if (animator != null)
+            {
+                animator.SetTrigger("Watering");
+            }
+
             Stamina -= AttackCost;
-            audioManager.PlaySFX(audioManager.water);
-
             if (Stamina < 0) Stamina = 0;
-            StaminaBar.fillAmount = Stamina / MaxStamina;
 
+            // Update stamina UI safely
+            UpdateStaminaBar();
+
+            // Play watering sound
+            if (audioManager != null)
+            {
+                audioManager.PlaySFX(audioManager.water);
+            }
+
+            // Handle stamina recharge
             if (recharge != null) StopCoroutine(recharge);
             recharge = StartCoroutine(RechargeStamina());
         }
     }
+
     void FixedUpdate()
     {
-        // Nếu đang tưới nước, không di chuyển
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering")) return;
+        // Don't move if watering
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsTag("Watering")) return;
 
         float currentSpeed;
         if (isRunning)
@@ -160,7 +184,10 @@ public class CharacterMovement : MonoBehaviour
             Stamina -= RunCost * Time.deltaTime;
             if (Stamina < 0) Stamina = 0;
             if (Stamina == 0) isRunning = false;
-            StaminaBar.fillAmount = Stamina / MaxStamina;
+
+            // Update stamina UI safely
+            UpdateStaminaBar();
+
             if (recharge != null) StopCoroutine(recharge);
             recharge = StartCoroutine(RechargeStamina());
         }
@@ -179,11 +206,35 @@ public class CharacterMovement : MonoBehaviour
         {
             Stamina += ChargeRate / 10f;
             if (Stamina > MaxStamina) Stamina = MaxStamina;
-            StaminaBar.fillAmount = Stamina / MaxStamina;
+
+            // Update stamina UI safely
+            UpdateStaminaBar();
+
             yield return new WaitForSeconds(.1f);
         }
     }
 
+    // Return the inventory (for cases where external scripts need access)
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
 
+    // Safe method to get the InventoryUI
+    public InventoryUI GetInventoryUI()
+    {
+        return inventoryUI;
+    }
 
+    // Helper method for using items
+    public void UseSelectedItem()
+    {
+        if (inventoryUI != null && inventoryUI.selectedItem != null)
+        {
+            // Logic for using the selected item
+            Debug.Log($"Using item: {inventoryUI.selectedItem.itemType}");
+
+            // Implement your item usage logic here
+        }
+    }
 }
