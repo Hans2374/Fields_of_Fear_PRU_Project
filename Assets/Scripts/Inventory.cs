@@ -27,12 +27,23 @@ public class Inventory
 
     public void AddItem(Item item)
     {
+        // Check if the item needs sprites
+        if (item.crop == null || item.growthStages == null || item.growthStages.Length == 0)
+        {
+            // Use UnityEngine.Object.FindObjectOfType instead of just FindObjectOfType
+            SeedSpriteManager seedSpriteManager = UnityEngine.Object.FindObjectOfType<SeedSpriteManager>();
+            if (seedSpriteManager != null)
+            {
+                seedSpriteManager.SetupSeedItem(item);
+                Debug.Log($"Set up missing sprites/crop data for {item.itemType} during inventory add");
+            }
+        }
 
         if (item.crop == null)
         {
             Debug.LogWarning($"⚠ Item {item.itemType} chưa có dữ liệu cây trồng!");
         }
-        
+
         OnItemListChanged?.Invoke(this, EventArgs.Empty);
         if (item.IsStackable())
         {

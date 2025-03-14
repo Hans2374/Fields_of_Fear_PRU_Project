@@ -37,6 +37,8 @@ public class ShopManager : MonoBehaviour
     private CurrencyManager currencyManager;
     private WorldTime worldTime;
     private AudioManager audioManager;
+    private CropDataManager cropDataManager;
+    private SeedSpriteManager seedSpriteManager;
 
     private void Awake()
     {
@@ -44,6 +46,15 @@ public class ShopManager : MonoBehaviour
         currencyManager = FindObjectOfType<CurrencyManager>();
         worldTime = FindObjectOfType<WorldTime>();
         audioManager = FindObjectOfType<AudioManager>();
+        seedSpriteManager = FindObjectOfType<SeedSpriteManager>();
+
+        // If SeedSpriteManager doesn't exist, create it
+        if (seedSpriteManager == null)
+        {
+            GameObject spriteManagerObj = new GameObject("SeedSpriteManager");
+            seedSpriteManager = spriteManagerObj.AddComponent<SeedSpriteManager>();
+            Debug.Log("Created SeedSpriteManager because it didn't exist");
+        }
 
         // Setup seed types if not already set in inspector
         if (seedTypes.Count == 0)
@@ -72,6 +83,14 @@ public class ShopManager : MonoBehaviour
 
         // Update car part price display
         UpdateCarPartDisplay();
+
+        // Create CropDataManager if it doesn't exist
+        if (cropDataManager == null)
+        {
+            GameObject cropDataObj = new GameObject("CropDataManager");
+            cropDataManager = cropDataObj.AddComponent<CropDataManager>();
+            Debug.Log("Created CropDataManager because it didn't exist");
+        }
     }
 
     private void OnDestroy()
@@ -110,15 +129,25 @@ public class ShopManager : MonoBehaviour
             // Generate random seeds based on probabilities
             List<Item> seedItems = GenerateRandomSeeds(seedsPerBag);
 
-            // Add seeds to player inventory - using the player's CharacterMovement to get inventory
+            // Add seeds to player inventory
             CharacterMovement player = FindObjectOfType<CharacterMovement>();
             if (player != null)
             {
                 // Add each seed to inventory
                 foreach (Item seed in seedItems)
                 {
-                    // Access inventory through the player's inventory field
-                    // Or use whatever method your game uses to access inventory
+                    // IMPORTANT: Set up the seed with proper sprites and crop data
+                    if (seedSpriteManager != null)
+                    {
+                        seedSpriteManager.SetupSeedItem(seed);
+                        Debug.Log($"Set up {seed.itemType} with sprites and crop data");
+                    }
+                    else
+                    {
+                        Debug.LogError("SeedSpriteManager is null! Seeds will not have proper sprites.");
+                    }
+
+                    // Add to inventory
                     AddItemToPlayerInventory(seed);
                 }
 
@@ -286,6 +315,12 @@ public class ShopManager : MonoBehaviour
                 itemType = selectedType,
                 amount = 1
             };
+
+            // Apply crop data from our manager
+            if (cropDataManager != null)
+            {
+                cropDataManager.ApplyCropDataToSeed(newSeed);
+            }
 
             seeds.Add(newSeed);
 

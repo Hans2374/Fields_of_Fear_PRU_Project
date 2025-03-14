@@ -458,6 +458,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57005762}
   m_CullTransparentMesh: 1
+--- !u!1 &82900140
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 82900142}
+  - component: {fileID: 82900141}
+  m_Layer: 0
+  m_Name: SeedSpriteManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &82900141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82900140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77161526d4c23742836fb1a917c8fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carrotStages:
+  - {fileID: 6545904345626749603, guid: d415d76543fc9d54db449b90b500fd65, type: 3}
+  - {fileID: -4858745760592137261, guid: 36ad2061e9b93c746b3859c2126a91db, type: 3}
+  - {fileID: -6728494050840446046, guid: f02e8c533a3307543a3b4f1f72bb0007, type: 3}
+  tomatoStages:
+  - {fileID: -223797632653872511, guid: 498f6eec10fd1ce459ffb595de41454e, type: 3}
+  - {fileID: -4352754049311023152, guid: 16fc23f1fe5e6664684187ccb7e656d4, type: 3}
+  - {fileID: 3522309384166830170, guid: eed9d88ecc74f2b468c83ec8ed263779, type: 3}
+  berryStages:
+  - {fileID: -5783009986098115502, guid: 7db0e34986d5adc49bce3000cd4cad39, type: 3}
+  - {fileID: -1758079577574945836, guid: 6d9f642ebe476044f9e048e1bd3f8db6, type: 3}
+  - {fileID: 4746169327399383943, guid: 3757f2f10914cbb449de5d7225996971, type: 3}
+  grapeStages:
+  - {fileID: -4852704753483212509, guid: 3e2be2058b374a742a7f88c7baef83f4, type: 3}
+  - {fileID: 3352919281923823923, guid: 50935f2ed4d14cd46af0bfc056621c72, type: 3}
+  - {fileID: 6081272026163692358, guid: 765aed68bc249d245adb3abbf9fea802, type: 3}
+  potatoStages:
+  - {fileID: 8334708335434292793, guid: d8b1b32e6e261794690e67ac6231d171, type: 3}
+  - {fileID: 2129487653367282209, guid: c6e577adc2f85eb45a600460473c30e4, type: 3}
+  - {fileID: 3672731910135363916, guid: 32d7aa7b0462d314a88e2f607ac47ad8, type: 3}
+  radishStages:
+  - {fileID: 143622543244901141, guid: 431819ad1fa27a54bb03cf937b16b4ed, type: 3}
+  - {fileID: 2102007722225642905, guid: 626bc63bb27f182498e0f7ab462cf82c, type: 3}
+  - {fileID: 3368198429455980946, guid: 17c76a10330294445bf504916d5c603f, type: 3}
+  cabbageStages:
+  - {fileID: -8591136365657069037, guid: 3d7e563063bc7b84a9744d581e447bfa, type: 3}
+  - {fileID: -7360235138473665724, guid: 677b2a07b876e134899fbe00e39c81f9, type: 3}
+  - {fileID: 1224935377525710001, guid: 8def3fe3a04a06340bf3783415108930, type: 3}
+--- !u!4 &82900142
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82900140}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -79.06346, y: -34.784523, z: 1.2395545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &97641317
 GameObject:
   m_ObjectHideFlags: 0
@@ -40175,6 +40247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1791443664}
   - component: {fileID: 1791443665}
+  - component: {fileID: 1791443666}
   m_Layer: 0
   m_Name: TransitionManager
   m_TagString: Untagged
@@ -40212,8 +40285,18 @@ MonoBehaviour:
   mainAreaContainer: {fileID: 1021520881}
   shopAreaContainer: {fileID: 1653263594}
   houseAreaContainer: {fileID: 1222211065}
-  transitionOverlay: {fileID: 0}
-  transitionDuration: 1
+--- !u!114 &1791443666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791443663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08622b50c402590488f084fc48d98aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1801639891
 GameObject:
   m_ObjectHideFlags: 0
@@ -40247,8 +40330,6 @@ MonoBehaviour:
   shopSystem: {fileID: 0}
   cropValueManager: {fileID: 0}
   carPartManager: {fileID: 0}
-  pauseMenu: {fileID: 0}
-  gameOverScreen: {fileID: 0}
 --- !u!4 &1801639894
 Transform:
   m_ObjectHideFlags: 0
@@ -40469,6 +40550,57 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1839605130
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1839605132}
+  - component: {fileID: 1839605131}
+  m_Layer: 0
+  m_Name: CropDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1839605131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839605130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6fea5707b0eb4242ae0ba2619e25396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carrotStages: []
+  tomatoStages: []
+  berryStages: []
+  grapeStages: []
+  potatoStages: []
+  radishStages: []
+  cabbageStages: []
+--- !u!4 &1839605132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839605130}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -79.06346, y: -34.784523, z: 1.2395545}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857660769
 GameObject:
   m_ObjectHideFlags: 0
@@ -41862,6 +41994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newSprite: {fileID: -7206975902796177855, guid: f2690161e9cc6174bac96030e1589525, type: 3}
+  Player: {fileID: 0}
 --- !u!1 &2104073202
 GameObject:
   m_ObjectHideFlags: 0
@@ -42843,3 +42976,5 @@ SceneRoots:
   - {fileID: 1791443664}
   - {fileID: 1346092753}
   - {fileID: 951178105}
+  - {fileID: 1839605132}
+  - {fileID: 82900142}
