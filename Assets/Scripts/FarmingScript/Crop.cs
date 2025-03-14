@@ -74,14 +74,33 @@ public class Crop : MonoBehaviour
         spriteRenderer.sortingOrder = 5; // Đảm bảo không bị che khuất
 
         // ✅ Thêm Collider2D để Raycast có thể phát hiện cây này
-        if (gameObject.GetComponent<BoxCollider2D>() == null)
+        BoxCollider2D collider = gameObject.GetComponent<BoxCollider2D>();
+        if (collider == null)
         {
-            gameObject.AddComponent<BoxCollider2D>();
+            collider = gameObject.AddComponent<BoxCollider2D>();
         }
+
+        // Điều chỉnh BoxCollider2D
+        collider.size *= 2.55f;  // Tăng kích thước BoxCollider lên 1.5 lần
+        collider.isTrigger = true; // Cho phép collider hoạt động như trigger (không cản trở di chuyển)
 
         StartCoroutine(Grow());
     }
 
+    // private IEnumerator Grow()
+    // {
+    //     while (growthStage < cropData.growthStages.Length - 1)
+    //     {
+    //         yield return new WaitForSeconds(cropData.timeToGrow);
+    //         growthStage++;
+    //         spriteRenderer.sprite = cropData.growthStages[growthStage];
+    //         Debug.Log($"{cropData.cropName} đã phát triển đến giai đoạn {growthStage}");
+    //     }
+
+
+    //     Debug.Log($"{cropData.cropName} đã chín! 🌱");
+    //     isFullyGrown = true;
+    // }
     private IEnumerator Grow()
     {
         while (growthStage < cropData.growthStages.Length - 1)
@@ -92,14 +111,19 @@ public class Crop : MonoBehaviour
             Debug.Log($"{cropData.cropName} đã phát triển đến giai đoạn {growthStage}");
         }
 
-        
+        // Khi cây chín, tăng vị trí Y lên 0.2 đơn vị
+        transform.position += new Vector3(0, 0.1f, 0);
+        Debug.Log($"{cropData.cropName} đã chín! 🌱");
+        isFullyGrown = true;
+
         Debug.Log($"{cropData.cropName} đã chín! 🌱");
         isFullyGrown = true;
     }
 
+
     private void OnMouseOver()
     {
-        if(isFullyGrown && Input.GetMouseButtonDown(1))
+        if (isFullyGrown && Input.GetMouseButtonDown(1))
         {
             HarvestCrop();
         }
@@ -107,13 +131,13 @@ public class Crop : MonoBehaviour
 
     private void HarvestCrop()
     {
-        if(!isFullyGrown)
+        if (!isFullyGrown)
         {
             Debug.LogWarning("Cây chưa chín, không thể thu hoạch!");
             return;
         }
 
-        if(CurrencyManager.Instance != null)
+        if (CurrencyManager.Instance != null)
         {
             CurrencyManager.Instance.AddMoney(cropData.sellPrice);
             Debug.Log($"Đã thu hoạch {cropData.cropName} và nhận được {cropData.sellPrice} tiền!");

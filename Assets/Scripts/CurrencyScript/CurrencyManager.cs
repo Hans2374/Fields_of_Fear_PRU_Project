@@ -136,7 +136,7 @@ public class CurrencyManager : MonoBehaviour
         //}
 
         // Mỗi lần mở game, cộng thêm 50 tiền
-        CurrentMoney += 80;
+        CurrentMoney += 1000;
 
         // Cập nhật hiển thị tiền trên UI
         UpdateMoneyDisplay();

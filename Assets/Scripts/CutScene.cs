@@ -1,82 +1,50 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement; // Import SceneManager
+using UnityEngine.SceneManagement;
 
 public class CutScene : MonoBehaviour
 {
+    public GameObject frame1, frame2, frame3, frame4, frame5, frame6; // Các frame riêng biệt
     AudioManager audioManager;
-    public Image carImage; // UI Image của xe
-    public Sprite brokenCarSprite; // Sprite xe hỏng
-    public BackgroundLooper[] backgroundLoopers; // Mảng chứa BG1 & BG2
-    public float timeBeforeCarBreaks = 10f;
-    public float carMoveSpeed = 600f; // Tốc độ xe chạy
-    public AudioClip explosionSound; // Âm thanh nổ
-    public float timeBeforeMove = 3f; // Thời gian chờ trước khi chuyển scene
-
-    private RectTransform carRect;
-    private bool isCarMoving = false;
+    public float frameDuration = 6f; // Thời gian mỗi frame hiển thị
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-        carRect = carImage.GetComponent<RectTransform>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio")?.GetComponent<AudioManager>();
     }
 
     private void Start()
     {
-        audioManager.PlayMusic(audioManager.menuBackGround);
-        StartCoroutine(CarBreaksDown());
+        StartCoroutine(PlayCutscene());
     }
 
-    IEnumerator CarBreaksDown()
+    private IEnumerator PlayCutscene()
     {
-        yield return new WaitForSeconds(timeBeforeCarBreaks);
+        yield return ShowFrame(frame1, () => audioManager.PlaySFX(audioManager.carMove));
+        yield return ShowFrame(frame2, () => audioManager.PlaySFX(audioManager.carFail));
+        yield return ShowFrame(frame3, () => audioManager.PlaySFX(audioManager.getHit));
+        yield return ShowFrame(frame4, () => audioManager.PlaySFX(audioManager.carIncrease));
+        yield return ShowFrame(frame5, () => audioManager.PlaySFX(audioManager.crops));
+        yield return ShowFrame(frame6, () => audioManager.PlaySFX(audioManager.crops));
 
-        // Dừng background loop
-        foreach (BackgroundLooper bg in backgroundLoopers)
-        {
-            bg.StopLoop();
-        }
-
-        // Đổi ảnh xe thành xe hỏng
-        carImage.sprite = brokenCarSprite;
-
-        // Bắt đầu di chuyển xe
-        isCarMoving = true;
+        // Sau khi cutscene kết thúc, chuyển scene
+        SceneManager.LoadSceneAsync(2);
     }
 
-    private void Update()
+    private IEnumerator ShowFrame(GameObject frame, System.Action playSound)
     {
-        if (isCarMoving)
-        {
-            // Di chuyển xe từ trái sang phải
-            carRect.anchoredPosition += Vector2.right * carMoveSpeed * Time.deltaTime;
+        audioManager.StopSFX(); // Dừng âm thanh trước đó
 
-            // Khi xe ra khỏi màn hình
-            if (carRect.anchoredPosition.x >= Screen.width)
-            {
-                isCarMoving = false;
-                StartCoroutine(CarExplosion());
-            }
-        }
-    }
+        if (frame != null) frame.SetActive(true); // Hiển thị frame mới
+        playSound?.Invoke(); // Phát âm thanh mới
 
-    IEnumerator CarExplosion()
-    {
-        audioManager.StopMusic(); // Dừng nhạc nền
-        audioManager.PlaySFX(audioManager.carMove); // Phát âm thanh xe di chuyển
-        yield return new WaitForSeconds(timeBeforeMove); // Chờ một chút
-        SceneManager.LoadSceneAsync(2); // Chuyển scene
+        yield return new WaitForSeconds(frameDuration);
     }
 
     public void SkipCutscene()
     {
-        audioManager.PlaySFX(audioManager.menuButton);
-        StopAllCoroutines(); 
-        isCarMoving = false; 
-       
-        audioManager.StopMusic();
-        SceneManager.LoadSceneAsync(2);
+        StopAllCoroutines(); // Dừng cutscene
+        audioManager.StopSFX(); // Dừng âm thanh khi skip
+        SceneManager.LoadSceneAsync(2); // Chuyển ngay đến scene tiếp theo
     }
 }

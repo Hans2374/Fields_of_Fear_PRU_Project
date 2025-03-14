@@ -6,7 +6,7 @@ public class ShopTextTrigger : MonoBehaviour
     [Header("Text to Display")]
     [SerializeField] private GameObject textContainer; // Parent container for the TMP element
     [SerializeField] private TextMeshProUGUI promptText; // Reference to the TMP component
-    [SerializeField] private string promptMessage = "Press E to buy"; // Default message
+    [SerializeField] private string promptMessage = ""; // Default message
 
     [Header("Trigger Settings")]
     [SerializeField] private float displayDistance = 2f; // Distance to display the text

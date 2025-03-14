@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +22,7 @@ public class Inventory
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
-        AddItem(new Item { itemType = Item.ItemType.CarPart, amount = 0 });
+        // AddItem(new Item { itemType = Item.ItemType.CarPart, amount = 0 });
         Debug.Log($"Inventory has {items.Count} items");
     }
     public void DebugListAllItems()

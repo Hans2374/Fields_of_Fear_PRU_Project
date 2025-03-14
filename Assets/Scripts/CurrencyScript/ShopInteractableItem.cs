@@ -105,12 +105,12 @@ public class ShopInteractableItem : MonoBehaviour
             // Try to parse the price if it's just a number
             if (int.TryParse(currentText, out price))
             {
-                priceText.text = $"Cost: {price}";
+                priceText.text = $"{price}";
             }
             // If it already has "Cost:" prefix, leave it as is
             else if (!currentText.StartsWith("Cost:"))
             {
-                priceText.text = $"Cost: {currentText}";
+                priceText.text = $"{currentText}";
             }
 
             // Make sure the text is visible

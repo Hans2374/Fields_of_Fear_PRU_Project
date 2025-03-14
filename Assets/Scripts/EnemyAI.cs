@@ -201,7 +201,9 @@ public class EnemyAI : MonoBehaviour
             if (hitCount >= hearts.Length)
             {
                 StopChaseMusic();
-                SceneManager.LoadScene(3);
+                player.GetComponent<Animator>().SetBool("isDead", true); // Kích hoạt animation die
+                yield return new WaitForSeconds(2f); // Chờ animation chạy hết
+                SceneManager.LoadScene(3); // Chuyển scene sau khi die
                 yield break;
             }
         }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9244db4b33d9faa498179980c456a3e9
+guid: ce6125950da87874fa896fd43f2c6ba4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8311006674250378012
-    second: storeChar_0
+      213: 4033227441774988054
+    second: cutFrame3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: storeChar_0
+      name: cutFrame3_0
       rect:
         serializedVersion: 2
-        x: 153
-        y: 99
-        width: 444
-        height: 802
+        x: 17
+        y: 18
+        width: 1380
+        height: 1936
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1b28906980a65370800000000000000
-      internalID: 8311006674250378012
+      spriteID: 61b0b554df6e8f730800000000000000
+      internalID: 4033227441774988054
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      storeChar_0: 8311006674250378012
+      cutFrame3_0: 4033227441774988054
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
