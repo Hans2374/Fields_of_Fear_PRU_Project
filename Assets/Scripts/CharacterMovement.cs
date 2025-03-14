@@ -48,8 +48,11 @@ public class CharacterMovement : MonoBehaviour
             Debug.LogWarning("AudioManager not found!");
         }
 
-        // Initialize inventory
-        inventory = new Inventory();
+        // Initialize inventory if not already done
+        if (inventory == null)
+        {
+            inventory = new Inventory();
+        }
 
         // Check and set inventory UI
         if (inventoryUI != null)
@@ -217,6 +220,12 @@ public class CharacterMovement : MonoBehaviour
     // Return the inventory (for cases where external scripts need access)
     public Inventory GetInventory()
     {
+        // Return the inventory reference from the CharacterMovement
+        if (inventory == null)
+        {
+            Debug.LogWarning("Inventory is null in CharacterMovement.GetInventory. Creating new inventory.");
+            inventory = new Inventory();
+        }
         return inventory;
     }
 

@@ -164,6 +164,12 @@ public class ShopManager : MonoBehaviour
     // Helper method to add item to player inventory
     private void AddItemToPlayerInventory(Item item)
     {
+        if (item == null)
+        {
+            Debug.LogError("Trying to add null item to inventory!");
+            return;
+        }
+
         // Find the player
         CharacterMovement player = FindObjectOfType<CharacterMovement>();
         if (player == null)
@@ -175,25 +181,40 @@ public class ShopManager : MonoBehaviour
         // Get the inventory through various possible paths
         Inventory inventory = null;
 
-        // Option 1: Try getting inventory directly
-        InventoryUI inventoryUI = player.GetComponent<InventoryUI>();
-        if (inventoryUI != null && inventoryUI.inventory != null)
+        // Option 1: Try from GetInventory method if it exists
+        var methodInfo = player.GetType().GetMethod("GetInventory");
+        if (methodInfo != null)
         {
-            inventory = inventoryUI.inventory;
-        }
-
-        // Option 2: Try from GetInventory method if it exists
-        if (inventory == null)
-        {
-            // Assuming your CharacterMovement has a method called GetInventory
-            var methodInfo = player.GetType().GetMethod("GetInventory");
-            if (methodInfo != null)
+            inventory = methodInfo.Invoke(player, null) as Inventory;
+            if (inventory != null)
             {
-                inventory = methodInfo.Invoke(player, null) as Inventory;
+                Debug.Log("Found inventory via GetInventory method");
             }
         }
 
-        // Option 3: Try getting it from a field if it exists
+        // Option 2: Try getting inventory from player's InventoryUI component
+        if (inventory == null)
+        {
+            InventoryUI inventoryUI = player.GetComponent<InventoryUI>();
+            if (inventoryUI != null && inventoryUI.inventory != null)
+            {
+                inventory = inventoryUI.inventory;
+                Debug.Log("Found inventory via InventoryUI component");
+            }
+        }
+
+        // Option 3: Find any InventoryUI in the scene
+        if (inventory == null)
+        {
+            InventoryUI anyInventoryUI = FindObjectOfType<InventoryUI>();
+            if (anyInventoryUI != null && anyInventoryUI.inventory != null)
+            {
+                inventory = anyInventoryUI.inventory;
+                Debug.Log("Found inventory via scene InventoryUI");
+            }
+        }
+
+        // Option 4: Try accessing inventory directly on player
         if (inventory == null)
         {
             var field = player.GetType().GetField("inventory",
@@ -204,29 +225,23 @@ public class ShopManager : MonoBehaviour
             if (field != null)
             {
                 inventory = field.GetValue(player) as Inventory;
+                if (inventory != null)
+                {
+                    Debug.Log("Found inventory via direct field access");
+                }
             }
-        }
-
-        // Option 4: Look for any GameObject with InventoryUI
-        if (inventory == null)
-        {
-            InventoryUI anyInventoryUI = FindObjectOfType<InventoryUI>();
-            if (anyInventoryUI != null && anyInventoryUI.inventory != null)
-            {
-                inventory = anyInventoryUI.inventory;
-            }
-        }
-
-        // Option 5: Create a new inventory if nothing else worked
-        if (inventory == null)
-        {
-            Debug.LogWarning("Could not find existing inventory, creating a new one");
-            inventory = new Inventory();
         }
 
         // Finally add the item
-        inventory.AddItem(item);
-        Debug.Log($"Added {item.itemType} x{item.amount} to inventory");
+        if (inventory != null)
+        {
+            inventory.AddItem(item);
+            Debug.Log($"Successfully added {item.itemType} x{item.amount} to inventory!");
+        }
+        else
+        {
+            Debug.LogError("Failed to find player inventory!");
+        }
     }
 
     // Buy car part method - called from interaction
@@ -253,31 +268,41 @@ public class ShopManager : MonoBehaviour
         // Try to spend money
         if (currencyManager.TrySpendMoney(price))
         {
-            // Add car part to player's collection
+            // Create car part item for inventory
+            Item carPartItem = new Item
+            {
+                itemType = Item.ItemType.CarPart,
+                amount = 1
+            };
+
+            // Add car part to player inventory
+            AddItemToPlayerInventory(carPartItem);
+
+            // Also notify Car Part Manager (for game progression)
             CarPartManager carPartManager = FindObjectOfType<CarPartManager>();
             if (carPartManager != null)
             {
                 carPartManager.AddCarPart();
-
-                // Update car part index for next purchase
-                currentCarPartIndex = Mathf.Min(currentCarPartIndex + 1, carPartPrices.Length - 1);
-
-                // Mark as bought today
-                carPartBoughtToday = true;
-
-                // Save progress
-                SaveCarPartProgress();
-
-                // Update display
-                UpdateCarPartDisplay();
-
-                PlaySuccessSound();
-                Debug.Log($"Bought car part for {price}!");
             }
             else
             {
-                Debug.LogWarning("Car Part Manager not found!");
+                Debug.LogWarning("CarPartManager not found - car part progression might not update properly!");
             }
+
+            // Update car part index for next purchase
+            currentCarPartIndex = Mathf.Min(currentCarPartIndex + 1, carPartPrices.Length - 1);
+
+            // Mark as bought today
+            carPartBoughtToday = true;
+
+            // Save progress
+            SaveCarPartProgress();
+
+            // Update display
+            UpdateCarPartDisplay();
+
+            PlaySuccessSound();
+            Debug.Log($"Bought car part for {price} and added to inventory!");
         }
     }
 

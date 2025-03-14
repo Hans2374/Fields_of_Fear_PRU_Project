@@ -5,7 +5,7 @@ public class CarRepairMiniGame : MonoBehaviour
 {
     AudioManager audioManager;
     [Header("Thanh trượt chạy qua lại")]
-    public Slider movingSlider;      // Slider “điểm” di chuyển
+    public Slider movingSlider;      // Slider "điểm" di chuyển
     public float moveSpeed = 1f;     // Tốc độ di chuyển
     private bool movingRight = true; // Hướng di chuyển
     private float sliderValue = 0f;
@@ -22,8 +22,9 @@ public class CarRepairMiniGame : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio")?.GetComponent<AudioManager>();
     }
+
     private void OnEnable()
     {
         // Khi miniGameUI được bật, reset trạng thái
@@ -56,7 +57,7 @@ public class CarRepairMiniGame : MonoBehaviour
         // 2) Người chơi nhấn Space
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Kiểm tra xem sliderValue đang nằm trong vùng “đẹp”
+            // Kiểm tra xem sliderValue đang nằm trong vùng "đẹp"
             if (sliderValue >= goodZoneMin && sliderValue <= goodZoneMax)
             {
                 // Thành công
@@ -69,6 +70,10 @@ public class CarRepairMiniGame : MonoBehaviour
                     Debug.Log("Sửa xe xong!");
                     MinigameCompletionCount++; // Tăng số lần hoàn thành
                     Debug.Log("Số lần hoàn thành mini-game: " + MinigameCompletionCount);
+
+                    // Remove car part from inventory
+                    RemoveCarPartFromInventory();
+
                     EndMinigame();
                 }
             }
@@ -87,12 +92,75 @@ public class CarRepairMiniGame : MonoBehaviour
         }
     }
 
+    private void RemoveCarPartFromInventory()
+    {
+        // Get player's inventory
+        CharacterMovement player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<CharacterMovement>();
+        if (player == null)
+        {
+            Debug.LogError("Player not found when trying to remove car part!");
+            return;
+        }
+
+        // Get inventory via GetInventory method
+        Inventory inventory = null;
+        var methodInfo = player.GetType().GetMethod("GetInventory");
+        if (methodInfo != null)
+        {
+            inventory = methodInfo.Invoke(player, null) as Inventory;
+        }
+
+        // Fallback - try to get inventory from InventoryUI
+        if (inventory == null)
+        {
+            InventoryUI inventoryUI = FindObjectOfType<InventoryUI>();
+            if (inventoryUI != null && inventoryUI.inventory != null)
+            {
+                inventory = inventoryUI.inventory;
+            }
+        }
+
+        if (inventory != null)
+        {
+            // Find a car part in inventory
+            foreach (Item item in inventory.GetItems())
+            {
+                if (item.itemType == Item.ItemType.CarPart && item.amount > 0)
+                {
+                    // Create a new item to remove (to avoid modifying during iteration)
+                    Item carPartToRemove = new Item
+                    {
+                        itemType = Item.ItemType.CarPart,
+                        amount = 1
+                    };
+
+                    // Remove it from inventory
+                    inventory.RemoveItem(carPartToRemove);
+                    Debug.Log("Car part removed from inventory after successful repair!");
+
+                    // Update UI
+                    InventoryUI inventoryUI = FindObjectOfType<InventoryUI>();
+                    if (inventoryUI != null)
+                    {
+                        inventoryUI.RefreshInventoryItems();
+                    }
+
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Failed to find inventory to remove car part!");
+        }
+    }
+
     private void EndMinigame()
     {
         // Tắt UI
         gameObject.SetActive(false);
 
-        CharacterMovement playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterMovement>();
+        CharacterMovement playerMovement = GameObject.FindGameObjectWithTag("Player")?.GetComponent<CharacterMovement>();
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
@@ -100,5 +168,3 @@ public class CarRepairMiniGame : MonoBehaviour
         // (Tuỳ ý) Mở lại di chuyển Player, ẩn/hiện HUD, v.v.
     }
 }
-
-

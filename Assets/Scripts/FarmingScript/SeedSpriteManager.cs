@@ -125,31 +125,31 @@ public class SeedSpriteManager : MonoBehaviour
         switch (seedType)
         {
             case Item.ItemType.CarrotSeed:
-                cropData.timeToGrow = 90f;
+                cropData.timeToGrow = 9f;
                 cropData.sellPrice = 20;
                 break;
             case Item.ItemType.TomatoSeed:
-                cropData.timeToGrow = 210f;
+                cropData.timeToGrow = 21f;
                 cropData.sellPrice = 30;
                 break;
             case Item.ItemType.BerrySeed:
-                cropData.timeToGrow = 135f;
+                cropData.timeToGrow = 14f;
                 cropData.sellPrice = 15;
                 break;
             case Item.ItemType.GrapeSeed:
-                cropData.timeToGrow = 180f;
+                cropData.timeToGrow = 18f;
                 cropData.sellPrice = 20;
                 break;
             case Item.ItemType.PotatoSeed:
-                cropData.timeToGrow = 210f;
+                cropData.timeToGrow = 21f;
                 cropData.sellPrice = 35;
                 break;
             case Item.ItemType.RadishSeed:
-                cropData.timeToGrow = 135f;
+                cropData.timeToGrow = 14f;
                 cropData.sellPrice = 25;
                 break;
             case Item.ItemType.CabbageSeed:
-                cropData.timeToGrow = 180f;
+                cropData.timeToGrow = 18f;
                 cropData.sellPrice = 30;
                 break;
             default:

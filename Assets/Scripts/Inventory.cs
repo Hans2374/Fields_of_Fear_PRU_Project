@@ -22,8 +22,17 @@ public class Inventory
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
-        AddItem(new Item{itemType = Item.ItemType.CarPart, amount = 1});
+        AddItem(new Item { itemType = Item.ItemType.CarPart, amount = 0 });
         Debug.Log($"Inventory has {items.Count} items");
+    }
+    public void DebugListAllItems()
+    {
+        Debug.Log($"====== INVENTORY CONTENTS ({items.Count} items) ======");
+        foreach (Item item in items)
+        {
+            Debug.Log($"Item: {item.itemType}, Amount: {item.amount}, Has CropData: {item.crop != null}, Has Sprites: {(item.growthStages != null ? item.growthStages.Length : 0)} sprites");
+        }
+        Debug.Log("======================================");
     }
 
     public void AddItem(Item item)

@@ -237,15 +237,18 @@ public class CarPartManager : MonoBehaviour
         // Check if repair was successful (not interrupted by monster)
         if (currentTime >= repairDuration)
         {
+            // REMOVE THESE LINES:
             // Use a car part
-            partsCollected--;
-            SaveCarPartsData();
+            // partsCollected--;
+            // SaveCarPartsData();
 
+            // KEEP THESE LINES:
             // Update UI
             UpdatePartsCountUI();
 
-            // Check if car is fully repaired
-            if (partsCollected == 0 && CarRepairMiniGame.MinigameCompletionCount >= totalPartsNeeded)
+            // MODIFY THIS CHECK:
+            // Check if car is fully repaired based on MinigameCompletionCount only
+            if (CarRepairMiniGame.MinigameCompletionCount >= totalPartsNeeded)
             {
                 // Car is fixed!
                 OnCarFullyRepaired();

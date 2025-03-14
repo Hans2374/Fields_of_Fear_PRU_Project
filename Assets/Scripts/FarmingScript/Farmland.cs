@@ -90,8 +90,8 @@ public class Farmland : MonoBehaviour
         SpriteRenderer sr = newCrop.GetComponent<SpriteRenderer>();
         if (sr != null)
         {
-            sr.sortingLayerName = "WalkBehind";
-            sr.sortingOrder = 5;
+            sr.sortingLayerName = "WalkInfront";
+            sr.sortingOrder = 1;
         }
     }
 
