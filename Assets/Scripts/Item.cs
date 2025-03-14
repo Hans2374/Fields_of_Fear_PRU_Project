@@ -13,7 +13,8 @@ public class Item
         PotatoSeed,
         RadishSeed,
         CabbageSeed,
-        TomatoSeed
+        TomatoSeed,
+        CarPart,
 
     }
 
@@ -37,6 +38,7 @@ public class Item
             case ItemType.RadishSeed: return ItemAssets.Instance.RadishSeedSprite;
             case ItemType.CabbageSeed: return ItemAssets.Instance.CabbageSeedSprite;
             case ItemType.TomatoSeed: return ItemAssets.Instance.TomatoSeedSprite;
+            case ItemType.CarPart: return ItemAssets.Instance.CarPartSprite;
         }
     }
 
@@ -52,6 +54,7 @@ public class Item
             case ItemType.RadishSeed:
             case ItemType.CabbageSeed:
             case ItemType.TomatoSeed:
+            case ItemType.CarPart:
                 return true;
         }
     }

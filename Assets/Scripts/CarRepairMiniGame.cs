@@ -100,3 +100,5 @@ public class CarRepairMiniGame : MonoBehaviour
         // (Tuỳ ý) Mở lại di chuyển Player, ẩn/hiện HUD, v.v.
     }
 }
+
+

@@ -22,6 +22,7 @@ public class Inventory
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
         //AddItem(new Item { itemType = Item.ItemType.GrapeSeed, amount = 1 });
+        AddItem(new Item{itemType = Item.ItemType.CarPart, amount = 1});
         Debug.Log($"Inventory has {items.Count} items");
     }
 

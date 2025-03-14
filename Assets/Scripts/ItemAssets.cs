@@ -27,4 +27,5 @@ public class ItemAssets : MonoBehaviour
     public Sprite RadishSeedSprite;
     public Sprite CabbageSeedSprite;
     public Sprite TomatoSeedSprite;
+    public Sprite CarPartSprite;
 }
