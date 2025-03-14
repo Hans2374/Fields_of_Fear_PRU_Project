@@ -12,13 +12,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public CropValueManager cropValueManager;
     [HideInInspector] public CarPartManager carPartManager;
 
-    // Game state tracking
-    private bool isGamePaused = false;
+    // Simplified game state tracking
     private bool isPlayerDead = false;
-
-    // UI References
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private GameObject gameOverScreen;
 
     private void Awake()
     {
@@ -36,17 +31,6 @@ public class GameManager : MonoBehaviour
 
         // Find manager references
         FindManagers();
-
-        // Initialize UI
-        if (pauseMenu != null)
-        {
-            pauseMenu.SetActive(false);
-        }
-
-        if (gameOverScreen != null)
-        {
-            gameOverScreen.SetActive(false);
-        }
     }
 
     private void Start()
@@ -96,40 +80,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // Handle pause menu
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPlayerDead)
-        {
-            TogglePauseMenu();
-        }
-    }
-
-    // Toggle the pause menu
-    public void TogglePauseMenu()
-    {
-        isGamePaused = !isGamePaused;
-
-        // Set time scale
-        Time.timeScale = isGamePaused ? 0f : 1f;
-
-        // Show/hide pause menu
-        if (pauseMenu != null)
-        {
-            pauseMenu.SetActive(isGamePaused);
-        }
-    }
-
-    // Handle player death
+    // Handle player death - now just loads game over scene
     public void OnPlayerDeath()
     {
+        if (isPlayerDead) return; // Prevent multiple calls
+
         isPlayerDead = true;
 
-        // Show game over screen
-        if (gameOverScreen != null)
-        {
-            gameOverScreen.SetActive(true);
-        }
+        // Make sure time scale is normal before scene transition
+        Time.timeScale = 1f;
+
+        // Load the game over scene - adjust index as needed
+        SceneManager.LoadScene(3); // Assuming 3 is your game over scene
     }
 
     // Restart the game
@@ -139,7 +101,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         // Reset game state
-        isGamePaused = false;
         isPlayerDead = false;
 
         // Reload the current scene
@@ -153,7 +114,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         // Reset game state
-        isGamePaused = false;
         isPlayerDead = false;
 
         // Load main menu scene (assuming it's scene 0)

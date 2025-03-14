@@ -7,12 +7,11 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private GameObject shopAreaContainer;
     [SerializeField] private GameObject houseAreaContainer; // Added house area container
 
+    // Audio manager reference
+    private AudioManager audioManager;
+
     // Player reference - will be found dynamically
     private GameObject player;
-
-    // Add any transition effects here (fade, loading screen, etc.)
-    [SerializeField] private CanvasGroup transitionOverlay;
-    [SerializeField] private float transitionDuration = 1.0f;
 
     // Keep track of the current active area
     private string currentArea = "Main";
@@ -56,19 +55,7 @@ public class TransitionManager : MonoBehaviour
             Debug.Log("[TransitionManager] House area deactivated");
         }
 
-        // Initialize transition overlay
-        if (transitionOverlay != null)
-        {
-            transitionOverlay.alpha = 0;
-            transitionOverlay.gameObject.SetActive(false);
-            Debug.Log("[TransitionManager] Transition overlay initialized");
-        }
-        else
-        {
-            Debug.Log("[TransitionManager] No transition overlay assigned (optional)");
-        }
-
-        // Find and update camera controller
+        // Update camera controller
         UpdateCameraController();
     }
 
@@ -93,23 +80,7 @@ public class TransitionManager : MonoBehaviour
             yield break; // Exit if player not found
         }
 
-        // 1. Fade out (if transition overlay exists)
-        if (transitionOverlay != null)
-        {
-            Debug.Log("[TransitionManager] Starting fade out");
-            transitionOverlay.gameObject.SetActive(true);
-            float elapsedTime = 0;
-            while (elapsedTime < transitionDuration)
-            {
-                transitionOverlay.alpha = Mathf.Lerp(0, 1, elapsedTime / transitionDuration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            transitionOverlay.alpha = 1;
-            Debug.Log("[TransitionManager] Fade out complete");
-        }
-
-        // 2. Find spawn point and teleport player
+        // Find spawn point and teleport player
         Debug.Log($"[TransitionManager] Looking for spawn point with ID: {spawnPointID}");
         PlayerSpawner targetSpawner = FindSpawnPoint(spawnPointID);
         if (targetSpawner != null && player != null)
@@ -151,7 +122,7 @@ public class TransitionManager : MonoBehaviour
             if (player == null) Debug.LogError("[TransitionManager] Transition failed: Player reference is null!");
         }
 
-        // 3. Toggle area visibility based on destination
+        // Toggle area visibility based on destination
         Debug.Log($"[TransitionManager] Toggling area visibility for destination: {destinationArea}, current: {currentArea}");
 
         // Deactivate all areas first
@@ -173,6 +144,17 @@ public class TransitionManager : MonoBehaviour
                 if (shopAreaContainer != null) shopAreaContainer.SetActive(true);
                 currentArea = "Shop";
                 Debug.Log("[TransitionManager] Shop area activated");
+
+                // Find AudioManager right before using it if it's still null
+                if (audioManager == null)
+                {
+                    audioManager = FindObjectOfType<AudioManager>();
+                    if (audioManager == null)
+                    {
+                        Debug.LogError("[TransitionManager] Failed to find AudioManager before entering shop!");
+                    }
+                }
+
                 OnEnterShop();
                 break;
 
@@ -194,25 +176,9 @@ public class TransitionManager : MonoBehaviour
         // Update the camera with new area limits
         UpdateCameraController();
 
-        // 4. Wait a moment to ensure everything loads
+        // Wait a moment to ensure everything loads
         Debug.Log("[TransitionManager] Waiting for scene to stabilize...");
         yield return new WaitForSeconds(0.2f);
-
-        // 5. Fade back in (if transition overlay exists)
-        if (transitionOverlay != null)
-        {
-            Debug.Log("[TransitionManager] Starting fade in");
-            float elapsedTime = 0;
-            while (elapsedTime < transitionDuration)
-            {
-                transitionOverlay.alpha = Mathf.Lerp(1, 0, elapsedTime / transitionDuration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            transitionOverlay.alpha = 0;
-            transitionOverlay.gameObject.SetActive(false);
-            Debug.Log("[TransitionManager] Fade in complete");
-        }
 
         Debug.Log($"[TransitionManager] Area transition complete. Current area: {currentArea}");
     }
@@ -261,6 +227,50 @@ public class TransitionManager : MonoBehaviour
     // Area initialization methods
     private void OnEnterShop()
     {
+        // Try one last time to get AudioManager if it's still null
+        if (audioManager == null)
+        {
+            Debug.LogWarning("[TransitionManager] AudioManager still null in OnEnterShop, trying direct find...");
+            // Try different ways to find AudioManager
+            audioManager = FindObjectOfType<AudioManager>();
+
+            // If that fails, try a broader search
+            if (audioManager == null)
+            {
+                Debug.LogWarning("[TransitionManager] Trying broader search for AudioManager...");
+                GameObject[] allGameObjects = GameObject.FindObjectsOfType<GameObject>();
+                foreach (GameObject go in allGameObjects)
+                {
+                    AudioManager am = go.GetComponent<AudioManager>();
+                    if (am != null)
+                    {
+                        audioManager = am;
+                        Debug.Log($"[TransitionManager] Found AudioManager on GameObject: {go.name}");
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Play doorbell sound when entering the shop
+        if (audioManager != null)
+        {
+            Debug.Log("[TransitionManager] Playing doorbell sound");
+            try
+            {
+                audioManager.PlaySFX(audioManager.bellDoor);
+                Debug.Log("[TransitionManager] Doorbell sound played successfully");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[TransitionManager] Error playing doorbell sound: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogError("[TransitionManager] Cannot play doorbell - AudioManager is null after all attempts");
+        }
+
         // For example: Update shop inventory, start dialogue, etc.
         Debug.Log("[TransitionManager] OnEnterShop called - performing shop initialization");
     }
@@ -273,6 +283,13 @@ public class TransitionManager : MonoBehaviour
 
     private void OnEnterHouse()
     {
+        // Play doorbell sound when entering the house
+        if (audioManager != null)
+        {
+            Debug.Log("[TransitionManager] Playing doorbell sound");
+            audioManager.PlaySFX(audioManager.bellDoor);
+        }
+
         // Add house-specific initialization logic here
         Debug.Log("[TransitionManager] OnEnterHouse called - performing house initialization");
         // For example: Turn on lights, play house ambience, etc.
