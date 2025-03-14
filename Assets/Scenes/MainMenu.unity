@@ -4042,6 +4042,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4774526666341403879, guid: 326b09f3edf23c34c82498a7809f29b9, type: 3}
+      propertyPath: CarPartSprite
+      value: 
+      objectReference: {fileID: -7185457962511941525, guid: 852cb06532ab73a4093a3c69f6f81650, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5841,14 +5845,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.76470596, g: 0.76470596, b: 0.76470596, a: 1}
+  m_Color: {r: 0.76470596, g: 0.76470596, b: 0.76470596, a: 0.6313726}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6603444445284545952, guid: bf8b68660f4d92f4793c9372b6cbabb1, type: 3}
+  m_Sprite: {fileID: -4579732634224898350, guid: 874d78387b0a3b748b3cf7b619769699, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

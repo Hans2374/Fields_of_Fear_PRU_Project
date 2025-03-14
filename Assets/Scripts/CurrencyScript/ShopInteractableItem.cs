@@ -18,8 +18,9 @@ public class ShopInteractableItem : MonoBehaviour
 
     private void Awake()
     {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        audioManager = GameObject.FindGameObjectWithTag("Audio")?.GetComponent<AudioManager>();
     }
+
     private void Start()
     {
         // Find managers
@@ -31,6 +32,9 @@ public class ShopInteractableItem : MonoBehaviour
         {
             interactionPrompt.SetActive(false);
         }
+
+        // Update price text format to include "Cost:" prefix
+        UpdatePriceText();
     }
 
     private void Update()
@@ -86,6 +90,48 @@ public class ShopInteractableItem : MonoBehaviour
         else
         {
             shopManager.BuySeedBag();
+        }
+    }
+
+    // Update price text to show "Cost: [price]" format
+    private void UpdatePriceText()
+    {
+        if (priceText != null)
+        {
+            // Get the current price from text
+            string currentText = priceText.text;
+            int price;
+
+            // Try to parse the price if it's just a number
+            if (int.TryParse(currentText, out price))
+            {
+                priceText.text = $"Cost: {price}";
+            }
+            // If it already has "Cost:" prefix, leave it as is
+            else if (!currentText.StartsWith("Cost:"))
+            {
+                priceText.text = $"Cost: {currentText}";
+            }
+
+            // Make sure the text is visible
+            priceText.gameObject.SetActive(true);
+
+            // Fix any alpha issues
+            Color textColor = priceText.color;
+            if (textColor.a <= 0.01f)
+            {
+                textColor.a = 1f;
+                priceText.color = textColor;
+            }
+        }
+    }
+
+    // Called by ShopManager to update the price display
+    public void SetPrice(int price)
+    {
+        if (priceText != null)
+        {
+            priceText.text = $"Cost: {price}";
         }
     }
 
