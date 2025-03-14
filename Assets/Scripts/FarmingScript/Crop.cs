@@ -73,6 +73,12 @@ public class Crop : MonoBehaviour
         spriteRenderer.sortingLayerName = "WalkBehind"; // Gán layer đúng như yêu cầu
         spriteRenderer.sortingOrder = 5; // Đảm bảo không bị che khuất
 
+        // ✅ Thêm Collider2D để Raycast có thể phát hiện cây này
+        if (gameObject.GetComponent<BoxCollider2D>() == null)
+        {
+            gameObject.AddComponent<BoxCollider2D>();
+        }
+
         StartCoroutine(Grow());
     }
 
@@ -91,7 +97,7 @@ public class Crop : MonoBehaviour
         isFullyGrown = true;
     }
 
-    private void Update()
+    private void OnMouseOver()
     {
         if(isFullyGrown && Input.GetMouseButtonDown(1))
         {
