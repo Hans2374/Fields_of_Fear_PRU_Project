@@ -1236,7 +1236,8 @@ MonoBehaviour:
   frame4: {fileID: 363631857}
   frame5: {fileID: 670410220}
   frame6: {fileID: 1151569875}
-  frameDuration: 5
+  frameDuration: 3
+  fadeDuration: 1
 --- !u!1 &834453430
 GameObject:
   m_ObjectHideFlags: 0
