@@ -6,7 +6,8 @@ public class ShopInteractableItem : MonoBehaviour
     AudioManager audioManager;
     [Header("Item Settings")]
     [SerializeField] private bool isCarPart = false;
-    [SerializeField] private GameObject interactionPrompt;
+
+    // Removed interaction prompt
     [SerializeField] private TextMeshProUGUI priceText;
 
     // References
@@ -27,12 +28,6 @@ public class ShopInteractableItem : MonoBehaviour
         shopManager = GetComponentInParent<ShopManager>() ?? FindObjectOfType<ShopManager>();
         currencyManager = FindObjectOfType<CurrencyManager>();
 
-        // Hide prompt initially
-        if (interactionPrompt != null)
-        {
-            interactionPrompt.SetActive(false);
-        }
-
         // Update price text format to include "Cost:" prefix
         UpdatePriceText();
     }
@@ -51,12 +46,7 @@ public class ShopInteractableItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-
-            // Show interaction prompt
-            if (interactionPrompt != null)
-            {
-                interactionPrompt.SetActive(true);
-            }
+            // Removed showing interaction prompt
         }
     }
 
@@ -65,12 +55,7 @@ public class ShopInteractableItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
-
-            // Hide interaction prompt
-            if (interactionPrompt != null)
-            {
-                interactionPrompt.SetActive(false);
-            }
+            // Removed hiding interaction prompt
         }
     }
 
@@ -93,7 +78,7 @@ public class ShopInteractableItem : MonoBehaviour
         }
     }
 
-    // Update price text to show "Cost: [price]" format
+    // Update price text to show "[price] coins per car part" format
     private void UpdatePriceText()
     {
         if (priceText != null)
@@ -105,12 +90,29 @@ public class ShopInteractableItem : MonoBehaviour
             // Try to parse the price if it's just a number
             if (int.TryParse(currentText, out price))
             {
-                priceText.text = $"{price}";
+                if (isCarPart)
+                {
+                    priceText.text = $"{price} coins per car part";
+                }
+                else
+                {
+                    priceText.text = $"{price}";
+                }
             }
-            // If it already has "Cost:" prefix, leave it as is
-            else if (!currentText.StartsWith("Cost:"))
+            // If it already has formatting, leave non-car parts as is
+            else if (!currentText.Contains("coins per car part") && isCarPart)
             {
-                priceText.text = $"{currentText}";
+                // Extract just the number if possible
+                string numberPart = currentText.Replace("Cost:", "").Trim();
+                if (int.TryParse(numberPart, out price))
+                {
+                    priceText.text = $"{price} coins per car part";
+                }
+                else
+                {
+                    // If we can't parse a number, just add the suffix
+                    priceText.text = $"{currentText} coins per car part";
+                }
             }
 
             // Make sure the text is visible
@@ -131,21 +133,24 @@ public class ShopInteractableItem : MonoBehaviour
     {
         if (priceText != null)
         {
-            priceText.text = $"Cost: {price}";
+            if (isCarPart)
+            {
+                priceText.text = $"{price} coins per car part";
+            }
+            else
+            {
+                priceText.text = $"Cost: {price}";
+            }
         }
     }
 
     // Called by animation events or other scripts
     public void ShowAvailablePrompt(bool canAfford)
     {
-        // You could show different prompts based on affordability
-        // For example, change text color or message
-        if (interactionPrompt != null)
+        // Just update text color based on affordability
+        if (priceText != null)
         {
-            if (priceText != null)
-            {
-                priceText.color = canAfford ? Color.green : Color.red;
-            }
+            priceText.color = canAfford ? Color.green : Color.red;
         }
     }
 }

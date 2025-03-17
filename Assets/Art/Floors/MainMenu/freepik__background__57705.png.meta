@@ -231,6 +231,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -1259,7 +1272,53 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      freepik__background__57705_0: 1889241174543217235
+      freepik__background__57705_1: -8829994466809340710
+      freepik__background__57705_10: 4299623085935368152
+      freepik__background__57705_11: 6585013352818366023
+      freepik__background__57705_12: -6723438570212604503
+      freepik__background__57705_13: -7375654002996360380
+      freepik__background__57705_14: 6460777858147092765
+      freepik__background__57705_15: 4004074393193291574
+      freepik__background__57705_16: 5757605040917003202
+      freepik__background__57705_17: 6340955560919150630
+      freepik__background__57705_18: 7600676680285395942
+      freepik__background__57705_19: -7513153186537770794
+      freepik__background__57705_2: 2877145514667461252
+      freepik__background__57705_20: 56450289869921620
+      freepik__background__57705_21: 8087092157647217753
+      freepik__background__57705_22: 7566660976412868461
+      freepik__background__57705_23: 8341633291235915518
+      freepik__background__57705_24: -7244666495449778785
+      freepik__background__57705_25: -8356577410939672483
+      freepik__background__57705_26: -905702090682301925
+      freepik__background__57705_27: -4213438721490962587
+      freepik__background__57705_28: -8653807492524866491
+      freepik__background__57705_29: -6164673457952872274
+      freepik__background__57705_3: -3540935661209197958
+      freepik__background__57705_30: 4999790703082387744
+      freepik__background__57705_31: 519916902100661986
+      freepik__background__57705_32: 4105954815557444753
+      freepik__background__57705_33: 3307991448290585351
+      freepik__background__57705_34: -7435489440714870203
+      freepik__background__57705_35: -6807628297789595969
+      freepik__background__57705_36: -2575622076169949712
+      freepik__background__57705_37: 2028950281053420788
+      freepik__background__57705_38: 5314283197350988073
+      freepik__background__57705_39: -3109720161082797575
+      freepik__background__57705_4: -1624470081287427424
+      freepik__background__57705_40: 6701196303880467727
+      freepik__background__57705_41: -8753740915508812791
+      freepik__background__57705_42: 7108599317561811564
+      freepik__background__57705_43: -6985811044463619549
+      freepik__background__57705_44: 3370663414029616316
+      freepik__background__57705_45: 6570643792526475805
+      freepik__background__57705_5: 1127518620766062610
+      freepik__background__57705_6: -8734386082586606940
+      freepik__background__57705_7: -2184310092063542763
+      freepik__background__57705_8: -6440721656295777006
+      freepik__background__57705_9: -7232994933145757980
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

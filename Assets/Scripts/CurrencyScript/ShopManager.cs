@@ -15,7 +15,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private int seedBagPrice = 80;
     [SerializeField] private int seedsPerBag = 5;
 
-    // Car part prices from your table
+    // Car part prices from your table - verified against provided values
+    // Index 0 = car part 1 (price 100), Index 1 = car part 2 (price 150), etc.
     private int[] carPartPrices = { 100, 150, 200, 300, 400, 500, 650, 800, 1000, 1200 };
     private int currentCarPartIndex = 0;
 
@@ -247,13 +248,7 @@ public class ShopManager : MonoBehaviour
     // Buy car part method - called from interaction
     public void BuyCarPart()
     {
-        // Check if car part was already bought today
-        if (carPartBoughtToday)
-        {
-            Debug.Log("You already bought a car part today. Come back tomorrow!");
-            PlayErrorSound();
-            return;
-        }
+        // Removed the check for carPartBoughtToday to allow multiple purchases
 
         // Get current price
         int price = GetCurrentCarPartPrice();
@@ -292,7 +287,7 @@ public class ShopManager : MonoBehaviour
             // Update car part index for next purchase
             currentCarPartIndex = Mathf.Min(currentCarPartIndex + 1, carPartPrices.Length - 1);
 
-            // Mark as bought today
+            // We still track if bought today, but it won't affect visibility or ability to purchase
             carPartBoughtToday = true;
 
             // Save progress
@@ -373,14 +368,15 @@ public class ShopManager : MonoBehaviour
     {
         if (carPartObject != null)
         {
-            // Show/hide based on availability
-            carPartObject.SetActive(!carPartBoughtToday);
+            // Always show car part object regardless of purchase status
+            carPartObject.SetActive(true);
         }
 
-        // Update price text
+        // Update price text with new format
         if (carPartPriceText != null)
         {
-            carPartPriceText.text = GetCurrentCarPartPrice().ToString();
+            int price = GetCurrentCarPartPrice();
+            carPartPriceText.text = $"{price} coins per car part";
         }
     }
 
@@ -394,12 +390,24 @@ public class ShopManager : MonoBehaviour
     // Load car part progress from PlayerPrefs
     private void LoadCarPartProgress()
     {
+        // Option 1: Always reset car part index on game restart
+        currentCarPartIndex = 0;
+
+        // Option 2: If you want to maintain progress between sessions, uncomment this code:
+        /*
         if (PlayerPrefs.HasKey("CarPartIndex"))
         {
             currentCarPartIndex = PlayerPrefs.GetInt("CarPartIndex");
 
             // Ensure valid index
             currentCarPartIndex = Mathf.Clamp(currentCarPartIndex, 0, carPartPrices.Length - 1);
+        }
+        */
+
+        // Optional: Delete the saved PlayerPrefs key completely to ensure a fresh start
+        if (PlayerPrefs.HasKey("CarPartIndex"))
+        {
+            PlayerPrefs.DeleteKey("CarPartIndex");
         }
     }
 
