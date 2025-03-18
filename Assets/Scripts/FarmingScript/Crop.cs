@@ -81,7 +81,8 @@ public class Crop : MonoBehaviour
         }
 
         // Điều chỉnh BoxCollider2D
-        collider.size *= 2.55f;  // Tăng kích thước BoxCollider lên 1.5 lần
+        collider.size = new Vector2(1.0f, 1.5f); // Điều chỉnh tùy theo kích thước cây trồng
+
         collider.isTrigger = true; // Cho phép collider hoạt động như trigger (không cản trở di chuyển)
 
         StartCoroutine(Grow());
